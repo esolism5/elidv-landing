@@ -1,7 +1,9 @@
-    <head>
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elidev_ | Diseño Web Premium</title>
+    <title>elidv | Diseño Web Premium</title>
     <meta name="description" content="Diseñamos páginas web que hacen crecer tu negocio. Experiencias digitales modernas, rápidas y optimizadas para convertir visitas en clientes.">
     <meta name="theme-color" content="#050505">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,11 +12,529 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+<body class="font-inter antialiased">
 
-<script src="js/particles.js"></script>
-<script src="js/main.js"></script>
+    <!-- Canvas de partículas de fondo -->
+    <canvas id="particle-canvas"></canvas>
 
-<div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center font-space font-bold text-white text-sm shadow-lg shadow-violet-500/30 group-hover:shadow-violet-500/50 transition-all duration-300">
-    e
-</div>
-<span class="font-space font-bold text-lg tracking-tight text-white">elidv<span class="text-violet-400">Web</span></span>
+    <!-- Background Orbs -->
+    <div class="orb-violet bg-orb"></div>
+    <div class="orb-blue bg-orb"></div>
+    <div class="orb-accent bg-orb"></div>
+
+    <!-- ============ NAVBAR ============ -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-400 glass-strong" style="background:rgba(5,5,5,0.6);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,0.05);">
+        <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-18">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center font-space font-bold text-white text-sm shadow-lg shadow-violet-500/30 group-hover:shadow-violet-500/50 transition-all duration-300">
+                        e
+                    </div>
+                    <span class="font-space font-bold text-lg tracking-tight text-white">elidv<span class="text-violet-400">Web</span></span>
+                </a>
+
+                <!-- Desktop Links -->
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#inicio" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors duration-200">Inicio</a>
+                    <a href="#servicios" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors duration-200">Servicios</a>
+                    <a href="#portafolio" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors duration-200">Portafolio</a>
+                    <a href="#planes" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors duration-200">Planes</a>
+                    <a href="#sobre-nosotros" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors duration-200">Sobre Nosotros</a>
+                </div>
+
+                <!-- Desktop CTA -->
+                <div class="hidden lg:block">
+                    <a href="https://wa.me/50259854166?text=Hola,%20quiero%20información%20sobre%20sus%20servicios%20web" target="_blank" rel="noopener" class="btn-primary text-sm !py-2.5 !px-5">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                        Cotizar por WhatsApp
+                    </a>
+                </div>
+
+                <!-- Hamburger -->
+                <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 p-2 z-50 relative" aria-label="Menú">
+                    <span class="block w-6 h-0.5 bg-white rounded transition-all duration-300" id="bar1"></span>
+                    <span class="block w-6 h-0.5 bg-white rounded transition-all duration-300" id="bar2"></span>
+                    <span class="block w-4 h-0.5 bg-white rounded transition-all duration-300 ml-auto" id="bar3"></span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu lg:hidden">
+                <div class="py-5 space-y-4 flex flex-col items-center">
+                    <a href="#inicio" class="text-base font-medium text-zinc-300 hover:text-white transition-colors">Inicio</a>
+                    <a href="#servicios" class="text-base font-medium text-zinc-300 hover:text-white transition-colors">Servicios</a>
+                    <a href="#portafolio" class="text-base font-medium text-zinc-300 hover:text-white transition-colors">Portafolio</a>
+                    <a href="#planes" class="text-base font-medium text-zinc-300 hover:text-white transition-colors">Planes</a>
+                    <a href="#sobre-nosotros" class="text-base font-medium text-zinc-300 hover:text-white transition-colors">Sobre Nosotros</a>
+                    <a href="https://wa.me/50259854166?text=Hola,%20quiero%20información%20sobre%20sus%20servicios%20web" target="_blank" rel="noopener" class="btn-primary text-sm !py-2.5 !px-5 mt-2">
+                        Cotizar por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ HERO SECTION ============ -->
+    <section id="inicio" class="relative min-h-screen flex items-center pt-20 pb-16 lg:pt-24 lg:pb-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                <!-- Left Column: Text -->
+                <div class="relative z-10 text-center lg:text-left">
+                    <div class="reveal">
+                        <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-6 border border-violet-500/30 bg-violet-500/8 text-violet-300">
+                            🚀 Agencia Web Premium
+                        </span>
+                    </div>
+                    <h1 class="reveal reveal-delay-1 font-space font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.08] tracking-[-0.03em] mb-6 text-white">
+                        Diseñamos páginas web que hacen<br>
+                        <span class="text-gradient">crecer tu negocio</span>
+                    </h1>
+                    <p class="reveal reveal-delay-2 text-base sm:text-lg text-zinc-400 max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed">
+                        Creamos experiencias digitales modernas, rápidas y optimizadas para convertir visitas en clientes.
+                    </p>
+                    <div class="reveal reveal-delay-3 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="https://wa.me/50259854166?text=Hola,%20quiero%20información%20sobre%20sus%20servicios%20web" target="_blank" rel="noopener" class="btn-primary">
+                            Quiero mi página web
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                        <a href="#portafolio" class="btn-secondary">
+                            Ver proyectos
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                        </a>
+                    </div>
+                    <!-- Indicators -->
+                    <div class="reveal reveal-delay-4 flex flex-wrap gap-6 mt-10 justify-center lg:justify-start text-sm text-zinc-400">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]"></span> Sitios rápidos
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-violet-400 shadow-[0_0_10px_rgba(139,92,246,0.6)]"></span> Diseños modernos
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.6)]"></span> Enfocados en ventas
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Mockups -->
+                <div class="relative z-10 flex justify-center lg:justify-end items-center min-h-[380px] sm:min-h-[450px]">
+                    <div class="relative float-medium">
+                        <!-- Laptop Mockup -->
+                        <div class="laptop-mockup glow-border-always" style="border-radius:18px;">
+                            <div class="laptop-screen">
+                                <div class="screen-ui-line" style="width:35%;"></div>
+                                <div class="screen-ui-line medium"></div>
+                                <div class="screen-ui-line short"></div>
+                                <div class="screen-ui-accent"></div>
+                                <div class="screen-ui-line" style="width:50%;"></div>
+                                <div class="screen-ui-line short"></div>
+                                <div class="screen-ui-line medium" style="width:45%;"></div>
+                            </div>
+                            <div class="laptop-base"></div>
+                        </div>
+                        <!-- Phone Mockup -->
+                        <div class="phone-mockup float-slow glow-border-always" style="border-radius:24px;">
+                            <div class="phone-screen">
+                                <div class="phone-notch"></div>
+                                <div class="phone-ui-line" style="width:70%;"></div>
+                                <div class="phone-ui-line" style="width:50%;"></div>
+                                <div style="height:18px;border-radius:5px;background:linear-gradient(135deg,rgba(139,92,246,0.55),rgba(59,130,246,0.45));margin:8px 0;width:80%;"></div>
+                                <div class="phone-ui-line" style="width:60%;"></div>
+                                <div class="phone-ui-line" style="width:40%;"></div>
+                            </div>
+                        </div>
+                        <!-- Glow behind mockups -->
+                        <div style="position:absolute;inset:-40px;background:radial-gradient(ellipse at center,rgba(139,92,246,0.22) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:-1;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CLIENT LOGOS ============ -->
+    <section class="py-10 border-t border-b border-[rgba(255,255,255,0.04)] bg-[rgba(255,255,255,0.01)]">
+        <div class="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
+            <p class="text-center text-xs uppercase tracking-[0.15em] text-zinc-500 mb-7 font-medium">Empresas que confían en nosotros</p>
+            <div class="flex flex-wrap justify-center items-center gap-8 sm:gap-12 md:gap-16">
+                <span class="text-zinc-400 font-space font-semibold text-lg sm:text-xl tracking-tight opacity-60 hover:opacity-100 transition-opacity duration-300 cursor-default">✦ Barbería</span>
+                <span class="text-zinc-400 font-space font-semibold text-lg sm:text-xl tracking-tight opacity-60 hover:opacity-100 transition-opacity duration-300 cursor-default">☕ Café</span>
+                <span class="text-zinc-400 font-space font-semibold text-lg sm:text-xl tracking-tight opacity-60 hover:opacity-100 transition-opacity duration-300 cursor-default">💪 Gym</span>
+                <span class="text-zinc-400 font-space font-semibold text-lg sm:text-xl tracking-tight opacity-60 hover:opacity-100 transition-opacity duration-300 cursor-default">🍽️ Restaurante</span>
+                <span class="text-zinc-400 font-space font-semibold text-lg sm:text-xl tracking-tight opacity-60 hover:opacity-100 transition-opacity duration-300 cursor-default">👗 Moda</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ STATS SECTION ============ -->
+    <section class="py-16 sm:py-20">
+        <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                <div class="reveal card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-5 sm:p-7 text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-violet-500 to-transparent rounded-full opacity-70"></div>
+                    <span class="stat-number font-space font-bold text-3xl sm:text-4xl lg:text-5xl tracking-[-0.03em] text-white block mb-2">+25</span>
+                    <span class="text-xs sm:text-sm text-zinc-400 font-medium">Proyectos entregados</span>
+                </div>
+                <div class="reveal reveal-delay-1 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-5 sm:p-7 text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent rounded-full opacity-70"></div>
+                    <span class="stat-number font-space font-bold text-3xl sm:text-4xl lg:text-5xl tracking-[-0.03em] text-white block mb-2">+10</span>
+                    <span class="text-xs sm:text-sm text-zinc-400 font-medium">Tiendas online activas</span>
+                </div>
+                <div class="reveal reveal-delay-2 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-5 sm:p-7 text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-violet-500 to-transparent rounded-full opacity-70"></div>
+                    <span class="stat-number font-space font-bold text-3xl sm:text-4xl lg:text-5xl tracking-[-0.03em] text-white block mb-2">100%</span>
+                    <span class="text-xs sm:text-sm text-zinc-400 font-medium">Clientes satisfechos</span>
+                </div>
+                <div class="reveal reveal-delay-3 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-5 sm:p-7 text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent rounded-full opacity-70"></div>
+                    <span class="stat-number font-space font-bold text-3xl sm:text-4xl lg:text-5xl tracking-[-0.03em] text-white block mb-2">7 días</span>
+                    <span class="text-xs sm:text-sm text-zinc-400 font-medium">Promedio de entrega</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SERVICIOS ============ -->
+    <section id="servicios" class="py-16 sm:py-24">
+        <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16 reveal">
+                <h2 class="font-space font-bold text-3xl sm:text-4xl lg:text-5xl tracking-[-0.03em] text-white mb-4">
+                    Soluciones digitales que<br class="hidden sm:block"> impulsan tu negocio
+                </h2>
+                <p class="text-zinc-400 text-base sm:text-lg max-w-xl mx-auto">Servicios premium diseñados para maximizar tu presencia online y generar resultados reales.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+                <!-- Card 1 -->
+                <div class="reveal card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-6 sm:p-7 group cursor-default">
+                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center mb-5 group-hover:bg-violet-500/20 transition-all duration-300">
+                        <svg class="w-6 h-6 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                    </div>
+                    <h3 class="font-space font-semibold text-lg text-white mb-2">Páginas Web</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Sitios web modernos, ultrarrápidos y optimizados para SEO que reflejan tu marca.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="reveal reveal-delay-1 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-6 sm:p-7 group cursor-default">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-5 group-hover:bg-blue-500/20 transition-all duration-300">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 010 4H8"/></svg>
+                    </div>
+                    <h3 class="font-space font-semibold text-lg text-white mb-2">Tiendas Online</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Ecommerce potente y fácil de gestionar. Vende 24/7 con una tienda profesional.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="reveal reveal-delay-2 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-6 sm:p-7 group cursor-default">
+                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center mb-5 group-hover:bg-violet-500/20 transition-all duration-300">
+                        <svg class="w-6 h-6 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3 class="font-space font-semibold text-lg text-white mb-2">Landing Pages</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Páginas de alto impacto diseñadas para convertir visitantes en clientes.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="reveal reveal-delay-3 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-6 sm:p-7 group cursor-default">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-5 group-hover:bg-blue-500/20 transition-all duration-300">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                    <h3 class="font-space font-semibold text-lg text-white mb-2">Mantenimiento Web</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Soporte continuo, backups, actualizaciones y optimización para tu tranquilidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PLANES Y PRECIOS ============ -->
+    <section id="planes" class="py-16 sm:py-24 relative">
+        <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16 reveal">
+                <h2 class="font-space font-bold text-3xl sm:text-4xl lg:text-5xl tracking-[-0.03em] text-white mb-4">
+                    Planes y precios
+                </h2>
+                <p class="text-zinc-400 text-base sm:text-lg max-w-xl mx-auto">Elige el plan perfecto para tu negocio. Todos incluyen diseño profesional y soporte.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-start">
+                <!-- LAUNCH -->
+                <div class="reveal card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-7 sm:p-8 relative">
+                    <h3 class="font-space font-bold text-xl text-white mb-1">LAUNCH</h3>
+                    <p class="text-sm text-zinc-400 mb-5">Perfecto para iniciar tu presencia digital</p>
+                    <div class="mb-6">
+                        <span class="text-zinc-500 text-sm">Desde</span>
+                        <span class="font-space font-bold text-4xl sm:text-5xl text-white block">Q1,499</span>
+                    </div>
+                    <ul class="space-y-3 mb-7 text-sm text-zinc-300">
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Landing page 1 página</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Diseño responsive</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Formulario de contacto</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> SEO básico</li>
+                        <li class="flex items-center gap-2"><span class="text-zinc-600">—</span> Integración ecommerce</li>
+                    </ul>
+                    <a href="https://wa.me/50259854166?text=Hola,%20quiero%20información%20sobre%20el%20plan%20LAUNCH" target="_blank" rel="noopener" class="btn-secondary w-full text-center justify-center !py-3">
+                        Elegir Launch
+                    </a>
+                </div>
+
+                <!-- BUSINESS (Highlighted) -->
+                <div class="reveal reveal-delay-1 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-7 sm:p-8 relative pricing-highlight">
+                    <div class="badge-popular">⭐ MÁS POPULAR</div>
+                    <h3 class="font-space font-bold text-xl text-white mb-1">BUSINESS</h3>
+                    <p class="text-sm text-zinc-400 mb-5">La opción favorita de negocios en crecimiento</p>
+                    <div class="mb-6">
+                        <span class="text-zinc-500 text-sm">Desde</span>
+                        <span class="font-space font-bold text-4xl sm:text-5xl text-white block">Q4,999</span>
+                    </div>
+                    <ul class="space-y-3 mb-7 text-sm text-zinc-300">
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Sitio web 5 páginas</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Diseño responsive premium</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Blog integrado</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> SEO avanzado</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Optimización velocidad</li>
+                    </ul>
+                    <a href="https://wa.me/50259854166?text=Hola,%20quiero%20información%20sobre%20el%20plan%20BUSINESS" target="_blank" rel="noopener" class="btn-primary w-full text-center justify-center !py-3">
+                        Elegir Business
+                    </a>
+                </div>
+
+                <!-- EMPIRE -->
+                <div class="reveal reveal-delay-2 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-7 sm:p-8 relative">
+                    <h3 class="font-space font-bold text-xl text-white mb-1">EMPIRE</h3>
+                    <p class="text-sm text-zinc-400 mb-5">Para negocios que buscan dominar su mercado</p>
+                    <div class="mb-6">
+                        <span class="text-zinc-500 text-sm">Desde</span>
+                        <span class="font-space font-bold text-4xl sm:text-5xl text-white block">Q9,999</span>
+                    </div>
+                    <ul class="space-y-3 mb-7 text-sm text-zinc-300">
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Tienda online completa</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Diseño UI/UX premium</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Panel administrador</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> SEO + analítica avanzada</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Integraciones personalizadas</li>
+                    </ul>
+                    <a href="https://wa.me/50259854166?text=Hola,%20quiero%20información%20sobre%20el%20plan%20EMPIRE" target="_blank" rel="noopener" class="btn-secondary w-full text-center justify-center !py-3 border-violet-500/40 hover:border-violet-500/70">
+                        Elegir Empire
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ MANTENIMIENTO Y GESTIÓN ============ -->
+    <section class="py-16 sm:py-20">
+        <div class="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="reveal bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl p-7 sm:p-10 lg:p-12 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-radial from-violet-500/15 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <h3 class="font-space font-bold text-2xl sm:text-3xl text-white mb-3">Mantenimiento & Gestión</h3>
+                    <p class="text-zinc-400 text-sm sm:text-base mb-8 max-w-lg">Nos encargamos de todo. Soporte técnico, backups, optimización, monitoreo 24/7 y gestión de contenido para que tú solo te preocupes por vender.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div class="bg-[#0a0a0f] rounded-xl p-5 border border-[rgba(255,255,255,0.04)] card-glow">
+                            <span class="text-xs uppercase tracking-wider text-violet-400 font-semibold">Básico</span>
+                            <span class="font-space font-bold text-2xl text-white block mt-1">Q350<span class="text-sm text-zinc-500 font-normal">/mes</span></span>
+                            <p class="text-xs text-zinc-500 mt-2">Soporte + backups semanales</p>
+                        </div>
+                        <div class="bg-[#0a0a0f] rounded-xl p-5 border border-[rgba(255,255,255,0.04)] card-glow relative">
+                            <span class="text-xs uppercase tracking-wider text-blue-400 font-semibold">Profesional</span>
+                            <span class="font-space font-bold text-2xl text-white block mt-1">Q800<span class="text-sm text-zinc-500 font-normal">/mes</span></span>
+                            <p class="text-xs text-zinc-500 mt-2">Soporte prioritario + optimización</p>
+                        </div>
+                        <div class="bg-[#0a0a0f] rounded-xl p-5 border border-[rgba(255,255,255,0.04)] card-glow">
+                            <span class="text-xs uppercase tracking-wider text-violet-400 font-semibold">Ecommerce Premium</span>
+                            <span class="font-space font-bold text-2xl text-white block mt-1">Q1,800<span class="text-sm text-zinc-500 font-normal">/mes</span></span>
+                            <p class="text-xs text-zinc-500 mt-2">Gestión completa + monitoreo 24/7</p>
+                        </div>
+                    </div>
+                    <div class="mt-7 flex flex-wrap gap-3 text-xs text-zinc-500">
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Soporte 24/7</span>
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Backups diarios</span>
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Optimización SEO</span>
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Monitoreo de seguridad</span>
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Actualizaciones</span>
+                        <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Gestión de contenido</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PORTAFOLIO ============ -->
+    <section id="portafolio" class="py-16 sm:py-24">
+        <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16 reveal">
+                <h2 class="font-space font-bold text-3xl sm:text-4xl lg:text-5xl tracking-[-0.03em] text-white mb-4">
+                    Proyectos que hablan
+                </h2>
+                <p class="text-zinc-400 text-base sm:text-lg max-w-xl mx-auto">Cada proyecto es una historia de éxito. Descubre cómo ayudamos a nuestros clientes.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                <!-- Portfolio Card Barbería -->
+                <div class="reveal card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl overflow-hidden group cursor-pointer">
+                    <div class="h-48 sm:h-56 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-violet-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+                        <span class="text-5xl">💈</span>
+                        <div class="absolute bottom-3 left-3 right-3 h-2 bg-white/8 rounded-full"></div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-violet-400 font-semibold uppercase tracking-wider">Barbería</span>
+                        <h4 class="font-space font-semibold text-white mt-1">BarberKing Online</h4>
+                        <p class="text-xs text-zinc-500 mt-1">Reservas online + catálogo de servicios</p>
+                    </div>
+                </div>
+                <!-- Portfolio Card Café -->
+                <div class="reveal reveal-delay-1 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl overflow-hidden group cursor-pointer">
+                    <div class="h-48 sm:h-56 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+                        <span class="text-5xl">☕</span>
+                        <div class="absolute bottom-3 left-3 right-3 h-2 bg-white/8 rounded-full"></div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-blue-400 font-semibold uppercase tracking-wider">Café</span>
+                        <h4 class="font-space font-semibold text-white mt-1">AromaCafé</h4>
+                        <p class="text-xs text-zinc-500 mt-1">Tienda online + suscripciones</p>
+                    </div>
+                </div>
+                <!-- Portfolio Card Moda -->
+                <div class="reveal reveal-delay-2 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl overflow-hidden group cursor-pointer">
+                    <div class="h-48 sm:h-56 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-violet-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+                        <span class="text-5xl">👗</span>
+                        <div class="absolute bottom-3 left-3 right-3 h-2 bg-white/8 rounded-full"></div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-violet-400 font-semibold uppercase tracking-wider">Moda</span>
+                        <h4 class="font-space font-semibold text-white mt-1">StyleHub</h4>
+                        <p class="text-xs text-zinc-500 mt-1">Ecommerce + lookbook interactivo</p>
+                    </div>
+                </div>
+                <!-- Portfolio Card Gym -->
+                <div class="reveal card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl overflow-hidden group cursor-pointer">
+                    <div class="h-48 sm:h-56 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+                        <span class="text-5xl">💪</span>
+                        <div class="absolute bottom-3 left-3 right-3 h-2 bg-white/8 rounded-full"></div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-blue-400 font-semibold uppercase tracking-wider">Gym</span>
+                        <h4 class="font-space font-semibold text-white mt-1">FitZone</h4>
+                        <p class="text-xs text-zinc-500 mt-1">Membresías online + clases</p>
+                    </div>
+                </div>
+                <!-- Portfolio Card Restaurante -->
+                <div class="reveal reveal-delay-1 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl overflow-hidden group cursor-pointer">
+                    <div class="h-48 sm:h-56 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-violet-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+                        <span class="text-5xl">🍽️</span>
+                        <div class="absolute bottom-3 left-3 right-3 h-2 bg-white/8 rounded-full"></div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-violet-400 font-semibold uppercase tracking-wider">Restaurante</span>
+                        <h4 class="font-space font-semibold text-white mt-1">Sabores del Mundo</h4>
+                        <p class="text-xs text-zinc-500 mt-1">Menú digital + reservas + delivery</p>
+                    </div>
+                </div>
+                <!-- Portfolio Card Retail -->
+                <div class="reveal reveal-delay-2 card-glow bg-dark-card border border-[rgba(255,255,255,0.06)] rounded-2xl overflow-hidden group cursor-pointer">
+                    <div class="h-48 sm:h-56 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+                        <span class="text-5xl">🛍️</span>
+                        <div class="absolute bottom-3 left-3 right-3 h-2 bg-white/8 rounded-full"></div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-blue-400 font-semibold uppercase tracking-wider">Retail</span>
+                        <h4 class="font-space font-semibold text-white mt-1">ShopLocal</h4>
+                        <p class="text-xs text-zinc-500 mt-1">Marketplace local + pagos integrados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CTA FINAL ============ -->
+    <section class="py-16 sm:py-24">
+        <div class="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="reveal relative rounded-3xl overflow-hidden p-8 sm:p-12 lg:p-16 text-center bg-dark-card border border-[rgba(139,92,246,0.25)]" style="box-shadow:0 0 60px rgba(139,92,246,0.18),0 0 120px rgba(59,130,246,0.08);">
+                <div class="absolute inset-0 bg-gradient-to-br from-violet-600/8 via-transparent to-blue-600/8 pointer-events-none"></div>
+                <div class="absolute -top-40 -right-40 w-80 h-80 bg-violet-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10">
+                    <h2 class="font-space font-bold text-2xl sm:text-3xl lg:text-4xl tracking-[-0.03em] text-white mb-4 max-w-2xl mx-auto">
+                        Lleva tu negocio al siguiente nivel con una página web profesional
+                    </h2>
+                    <p class="text-zinc-400 text-sm sm:text-base mb-8 max-w-lg mx-auto">Diseño premium, SEO optimizado y soporte continuo. Da el salto digital hoy.</p>
+                    <a href="https://wa.me/50259854166?text=Hola,%20quiero%20información%20sobre%20sus%20servicios%20web" target="_blank" rel="noopener" class="btn-primary text-base !py-3.5 !px-8">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+                        Hablar por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="border-t border-[rgba(255,255,255,0.05)] py-12 sm:py-16" id="sobre-nosotros">
+        <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-8">
+                <!-- Logo & Description -->
+                <div class="col-span-2 sm:col-span-1">
+                    <a href="#" class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center font-space font-bold text-white text-xs">e</div>
+                        <span class="font-space font-bold text-lg text-white">elidv<span class="text-violet-400">Web</span></span>
+                    </a>
+                    <p class="text-xs text-zinc-500 leading-relaxed max-w-xs">Agencia de diseño web premium. Creamos experiencias digitales que impulsan tu negocio.</p>
+                </div>
+                <!-- Servicios -->
+                <div>
+                    <h4 class="font-space font-semibold text-white text-sm mb-4">Servicios</h4>
+                    <ul class="space-y-2.5 text-sm text-zinc-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Páginas Web</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Tiendas Online</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Landing Pages</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mantenimiento</a></li>
+                    </ul>
+                </div>
+                <!-- Empresa -->
+                <div>
+                    <h4 class="font-space font-semibold text-white text-sm mb-4">Empresa</h4>
+                    <ul class="space-y-2.5 text-sm text-zinc-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Sobre Nosotros</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Portafolio</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Planes</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+                <!-- Contacto -->
+                <div>
+                    <h4 class="font-space font-semibold text-white text-sm mb-4">Contacto</h4>
+                    <ul class="space-y-2.5 text-sm text-zinc-400">
+                        <li><a href="https://wa.me/50259854166" target="_blank" rel="noopener" class="hover:text-white transition-colors">WhatsApp</a></li>
+                        <li><a href="mailto:hola@elidv.com" class="hover:text-white transition-colors">hola@elidv.com</a></li>
+                    </ul>
+                    <!-- Social Icons -->
+                    <div class="flex gap-3 mt-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/12 transition-all duration-200" aria-label="Instagram">
+                            <svg class="w-3.5 h-3.5 text-zinc-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/12 transition-all duration-200" aria-label="Twitter/X">
+                            <svg class="w-3.5 h-3.5 text-zinc-400" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/12 transition-all duration-200" aria-label="LinkedIn">
+                            <svg class="w-3.5 h-3.5 text-zinc-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-[rgba(255,255,255,0.05)] mt-10 pt-7 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-xs text-zinc-600">&copy; 2026 elidv. Todos los derechos reservados.</p>
+                <div class="flex gap-4 text-xs text-zinc-600">
+                    <a href="#" class="hover:text-zinc-400 transition-colors">Privacidad</a>
+                    <a href="#" class="hover:text-zinc-400 transition-colors">Términos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ WHATSAPP FLOAT ============ -->
+    <a href="https://wa.me/50259854166?text=Hola,%20quiero%20información%20sobre%20sus%20servicios%20web" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat en WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+    </a>
+
+    <!-- SCRIPTS -->
+    <script src="js/particles.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
