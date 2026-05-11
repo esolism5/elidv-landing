@@ -1,0 +1,603 @@
+:root {
+            --deep: #050505;
+            --dark-card: #0F0F0F;
+            --violet-neon: #8B5CF6;
+            --blue-electric: #3B82F6;
+            --violet-glow: #A78BFA;
+            --white-pure: #FFFFFF;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-glow: rgba(139, 92, 246, 0.3);
+            --text-secondary: #A1A1AA;
+            --text-tertiary: #71717A;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        body {
+            background-color: var(--deep);
+            color: #fff;
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* === Canvas de partículas === */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.45;
+        }
+
+        /* === Background Orbs / Ambient Glow === */
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+            will-change: transform;
+        }
+        .orb-violet {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, transparent 70%);
+            top: -15%;
+            right: -10%;
+            animation: orbFloatViolet 14s ease-in-out infinite;
+        }
+        .orb-blue {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.28) 0%, transparent 70%);
+            bottom: -12%;
+            left: -8%;
+            animation: orbFloatBlue 16s ease-in-out infinite;
+        }
+        .orb-accent {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.25) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbFloatAccent 18s ease-in-out infinite;
+        }
+        @keyframes orbFloatViolet {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(-40px, 30px) scale(1.08);
+            }
+            50% {
+                transform: translate(20px, -25px) scale(0.94);
+            }
+            75% {
+                transform: translate(-15px, -40px) scale(1.05);
+            }
+        }
+        @keyframes orbFloatBlue {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(35px, -20px) scale(1.06);
+            }
+            50% {
+                transform: translate(-25px, 30px) scale(0.93);
+            }
+            75% {
+                transform: translate(20px, 15px) scale(1.04);
+            }
+        }
+        @keyframes orbFloatAccent {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            33% {
+                transform: translate(-48%, -52%) scale(1.1);
+            }
+            66% {
+                transform: translate(-52%, -48%) scale(0.9);
+            }
+        }
+
+        /* === Glassmorphism === */
+        .glass {
+            background: rgba(15, 15, 15, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-subtle);
+        }
+        .glass-strong {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* === Glow Effects === */
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(59, 130, 246, 0.4), rgba(139, 92, 246, 0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .glow-border:hover::after,
+        .glow-border.active-glow::after {
+            opacity: 1;
+        }
+        
+        .glow-border-always::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(59, 130, 246, 0.4), rgba(139, 92, 246, 0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* === Card Hover Glow === */
+        .card-glow {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            position: relative;
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.25), 0 0 80px rgba(59, 130, 246, 0.12),
+                0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(-4px);
+            border-color: rgba(139, 92, 246, 0.45);
+        }
+
+        /* === Floating Animation === */
+        .float-slow {
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+        .float-medium {
+            animation: floatMedium 5s ease-in-out infinite;
+        }
+        @keyframes floatSlow {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-18px);
+            }
+        }
+        @keyframes floatMedium {
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            30% {
+                transform: translateY(-12px) rotate(0.5deg);
+            }
+            60% {
+                transform: translateY(-6px) rotate(-0.3deg);
+            }
+        }
+
+        /* === Scroll Reveal === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* === Gradient Text === */
+        .text-gradient {
+            background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 30%, #6D28D9 50%, #3B82F6 70%, #60A5FA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 6s ease-in-out infinite;
+        }
+        @keyframes gradientShift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* === Navbar === */
+        .navbar-scrolled {
+            background: rgba(5, 5, 5, 0.85) !important;
+            backdrop-filter: blur(24px) !important;
+            -webkit-backdrop-filter: blur(24px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+        }
+
+        /* === Mobile Menu === */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+            opacity: 0;
+        }
+        .mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        /* === Mockup Styles === */
+        .laptop-mockup {
+            width: 340px;
+            background: #1a1a1e;
+            border-radius: 16px;
+            padding: 10px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 60px rgba(139, 92, 246, 0.2);
+            position: relative;
+        }
+        .laptop-screen {
+            background: linear-gradient(160deg, #0d0d12 0%, #111118 40%, #0a0a14 100%);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        .laptop-screen::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .screen-ui-line {
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            margin-bottom: 10px;
+        }
+        .screen-ui-line.short {
+            width: 60%;
+        }
+        .screen-ui-line.medium {
+            width: 80%;
+        }
+        .screen-ui-accent {
+            height: 30px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(59, 130, 246, 0.4));
+            margin: 14px 0;
+            width: 70%;
+        }
+        .laptop-base {
+            width: 120%;
+            margin-left: -10%;
+            height: 6px;
+            background: #1a1a1e;
+            border-radius: 0 0 20px 20px;
+            margin-top: 6px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        .phone-mockup {
+            width: 120px;
+            background: #1a1a1e;
+            border-radius: 22px;
+            padding: 8px;
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.55), 0 0 50px rgba(59, 130, 246, 0.2);
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            z-index: 2;
+        }
+        .phone-screen {
+            background: linear-gradient(180deg, #0d0d12 0%, #111118 50%, #0a0a14 100%);
+            border-radius: 16px;
+            padding: 12px;
+            min-height: 160px;
+            position: relative;
+            overflow: hidden;
+        }
+        .phone-screen::before {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .phone-notch {
+            width: 40px;
+            height: 4px;
+            background: #1a1a1e;
+            border-radius: 2px;
+            margin: 0 auto 10px;
+        }
+        .phone-ui-line {
+            height: 5px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.07);
+            margin-bottom: 7px;
+        }
+
+        /* === Button Styles === */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 50%, #5B21B6 100%);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 8px 35px rgba(139, 92, 246, 0.55), 0 0 0 4px rgba(139, 92, 246, 0.15);
+            transform: translateY(-2px);
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-primary:hover::after {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none;
+        }
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 25px rgba(255, 255, 255, 0.06);
+        }
+
+        /* === WhatsApp Float Button === */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 100;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.45);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            animation: floatSlow 5s ease-in-out infinite;
+            cursor: pointer;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1) translateY(-4px);
+            box-shadow: 0 14px 40px rgba(37, 211, 102, 0.6);
+        }
+        .whatsapp-float svg {
+            width: 26px;
+            height: 26px;
+            fill: #fff;
+        }
+
+        /* === Stats Counter === */
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum";
+        }
+
+        /* === Pricing Card Highlight === */
+        .pricing-highlight {
+            position: relative;
+            transform: scale(1.04);
+            z-index: 5;
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.3), 0 20px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(139, 92, 246, 0.45) !important;
+        }
+        .pricing-highlight .badge-popular {
+            display: flex;
+        }
+        .badge-popular {
+            display: none;
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            z-index: 6;
+            box-shadow: 0 4px 18px rgba(139, 92, 246, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .pricing-highlight {
+                transform: scale(1);
+            }
+            .laptop-mockup {
+                width: 260px;
+            }
+            .phone-mockup {
+                width: 90px;
+                bottom: -22px;
+                right: -18px;
+                border-radius: 16px;
+                padding: 6px;
+            }
+            .phone-screen {
+                border-radius: 11px;
+                padding: 8px;
+                min-height: 120px;
+            }
+            .phone-notch {
+                width: 28px;
+                height: 3px;
+                margin: 0 auto 6px;
+            }
+            .phone-ui-line {
+                height: 4px;
+                margin-bottom: 5px;
+            }
+            .btn-primary,
+            .btn-secondary {
+                padding: 12px 22px;
+                font-size: 0.85rem;
+            }
+            .orb-violet {
+                width: 300px;
+                height: 300px;
+                top: -8%;
+                right: -20%;
+            }
+            .orb-blue {
+                width: 250px;
+                height: 250px;
+                bottom: -8%;
+                left: -20%;
+            }
+            .orb-accent {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        @media (max-width: 480px) {
+            .laptop-mockup {
+                width: 200px;
+                border-radius: 10px;
+                padding: 6px;
+            }
+            .laptop-screen {
+                border-radius: 6px;
+                padding: 12px;
+                min-height: 130px;
+            }
+            .laptop-base {
+                height: 4px;
+                border-radius: 0 0 12px 12px;
+                margin-top: 4px;
+            }
+            .phone-mockup {
+                width: 68px;
+                bottom: -16px;
+                right: -12px;
+                border-radius: 12px;
+                padding: 4px;
+            }
+            .phone-screen {
+                border-radius: 8px;
+                padding: 6px;
+                min-height: 90px;
+            }
+            .phone-notch {
+                width: 20px;
+                height: 2px;
+                margin: 0 auto 4px;
+            }
+            .phone-ui-line {
+                height: 3px;
+                margin-bottom: 3px;
+            }
+            .screen-ui-line {
+                height: 5px;
+                margin-bottom: 6px;
+            }
+            .screen-ui-accent {
+                height: 20px;
+                margin: 8px 0;
+            }
+            h1 {
+                font-size: 2rem !important;
+            }
+            h2 {
+                font-size: 1.5rem !important;
+            }
+        }
