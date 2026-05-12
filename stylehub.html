@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleHub — Redefining Modern Fashion</title>
+    <meta name="description" content="StyleHub - Premium modern fashion brand. Discover luxury streetwear, minimalist collections, and editorial campaigns.">
+    <meta name="keywords" content="fashion, streetwear, luxury, minimalist, premium clothing">
+    <meta property="og:title" content="StyleHub — Redefining Modern Fashion">
+    <meta property="og:description" content="Premium modern fashion brand. Luxury streetwear and minimalist collections.">
+    <meta property="og:type" content="website">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hub-black': '#0a0a0a',
+                        'hub-dark': '#111111',
+                        'hub-gray': '#1a1a1a',
+                        'hub-muted': '#2a2a2a',
+                        'hub-silver': '#c0c0c0',
+                        'hub-beige': '#d4c5b0',
+                        'hub-cream': '#f5f0eb',
+                        'hub-white': '#fafafa',
+                    },
+                    fontFamily: {
+                        'display': ['"Inter"', 'system-ui', 'sans-serif'],
+                        'body': ['"Inter"', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-family: 'Inter', system-ui, sans-serif; }
+        body { background: #0a0a0a; color: #fafafa; overflow-x: hidden; cursor: none; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        .cursor-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; mix-blend-mode: difference; transition: transform 0.1s; }
+        .cursor-ring { width: 40px; height: 40px; border: 1.5px solid rgba(255,255,255,0.5); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99998; mix-blend-mode: difference; transition: all 0.15s ease-out; }
+        .cursor-ring.hover { width: 60px; height: 60px; border-color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.05); }
+        @media (max-width: 768px) { .cursor-dot, .cursor-ring { display: none; } body { cursor: auto; } }
+        
+        .loader-screen { position: fixed; inset: 0; background: #0a0a0a; z-index: 100000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .loader-text { font-size: clamp(2rem, 8vw, 6rem); font-weight: 800; letter-spacing: -0.04em; color: #fafafa; overflow: hidden; }
+        .loader-text span { display: inline-block; }
+        .loader-bar { width: 0%; height: 1px; background: #fafafa; margin-top: 2rem; transition: width 0.3s; }
+        .loader-percent { font-size: 0.75rem; letter-spacing: 0.2em; color: #666; margin-top: 1rem; }
+        
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .navbar.scrolled { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .mega-menu { position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,10,10,0.97); backdrop-filter: blur(30px); padding: 3rem; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .mega-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hero-slide.active { opacity: 1; }
+        .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .product-card { position: relative; overflow: hidden; }
+        .product-card .product-img-secondary { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .product-card:hover .product-img-secondary { opacity: 1; }
+        .product-card:hover .product-img-primary { transform: scale(1.05); }
+        .product-img-primary, .product-img-secondary { transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        .lookbook-item { position: relative; overflow: hidden; }
+        .lookbook-item .lookbook-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%); opacity: 0; transition: opacity 0.5s; }
+        .lookbook-item:hover .lookbook-overlay { opacity: 1; }
+        .lookbook-item img { transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .lookbook-item:hover img { transform: scale(1.03); }
+        
+        .editorial-card { position: relative; overflow: hidden; }
+        .editorial-card img { transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .editorial-card:hover img { transform: scale(1.05); }
+        
+        .campaign-slide { position: relative; overflow: hidden; }
+        
+        .quick-view-modal { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s; }
+        .quick-view-modal.active { opacity: 1; visibility: visible; }
+        .quick-view-modal .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
+        .quick-view-modal .modal-content { position: relative; z-index: 1; transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .quick-view-modal.active .modal-content { transform: scale(1) translateY(0); }
+        
+        .size-btn { transition: all 0.2s; }
+        .size-btn.active { background: #fafafa; color: #0a0a0a; }
+        .size-btn:hover:not(.active) { border-color: #fafafa; }
+        
+        .color-btn { transition: all 0.2s; }
+        .color-btn.active { box-shadow: 0 0 0 2px #fafafa; }
+        
+        .hamburger-line { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hamburger.active .hamburger-line:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active .hamburger-line:nth-child(2) { opacity: 0; }
+        .hamburger.active .hamburger-line:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+        
+        .mobile-menu { position: fixed; inset: 0; background: #0a0a0a; z-index: 999; transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .mobile-menu.active { transform: translateX(0); }
+        
+        .marquee { animation: marquee 30s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
+        .text-reveal { overflow: hidden; }
+        .text-reveal span { display: inline-block; }
+        
+        .fade-up { opacity: 0; transform: translateY(40px); }
+        .fade-in { opacity: 0; }
+        
+        .btn-premium { position: relative; overflow: hidden; }
+        .btn-premium::after { content: ''; position: absolute; inset: 0; background: #fff; transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-premium:hover::after { transform: scaleX(1); transform-origin: left; }
+        .btn-premium:hover { color: #0a0a0a; }
+        
+        .img-zoom-container { overflow: hidden; }
+        .img-zoom-container img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .img-zoom-container:hover img { transform: scale(1.08); }
+        
+        .newsletter-input { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.3); outline: none; transition: border-color 0.3s; }
+        .newsletter-input:focus { border-bottom-color: #fafafa; }
+        
+        .toast { position: fixed; bottom: 2rem; right: 2rem; background: #fafafa; color: #0a0a0a; padding: 1rem 2rem; z-index: 100001; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 0; font-size: 0.85rem; letter-spacing: 0.05em; }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        
+        .cart-badge { position: absolute; top: -2px; right: -8px; width: 18px; height: 18px; background: #fafafa; color: #0a0a0a; border-radius: 50%; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; font-weight: 600; opacity: 0; transform: scale(0); transition: all 0.3s; }
+        .cart-badge.show { opacity: 1; transform: scale(1); }
+        
+        .filter-btn { position: relative; }
+        .filter-btn.active::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: #fafafa; }
+        
+        @media (max-width: 768px) {
+            .hide-mobile { display: none !important; }
+        }
+        @media (min-width: 769px) {
+            .hide-desktop { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    
+    <!-- Loading Screen -->
+    <div class="loader-screen" id="loader">
+        <div class="loader-text" id="loaderText">
+            <span>S</span><span>t</span><span>y</span><span>l</span><span>e</span><span>H</span><span>u</span><span>b</span>
+        </div>
+        <div class="loader-bar" id="loaderBar"></div>
+        <div class="loader-percent" id="loaderPercent">0%</div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Added to bag</div>
+    
+    <!-- Quick View Modal -->
+    <div class="quick-view-modal" id="quickViewModal">
+        <div class="modal-backdrop" onclick="closeQuickView()"></div>
+        <div class="modal-content max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto bg-[#111]">
+            <button onclick="closeQuickView()" class="absolute top-4 right-4 z-10 text-white hover:text-gray-400 transition-colors" data-hover>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="img-zoom-container aspect-[3/4]">
+                    <img id="qvImage" src="" alt="" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 md:p-8 flex flex-col justify-center">
+                    <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase mb-2" id="qvCategory">New Collection</p>
+                    <h3 class="text-xl md:text-2xl font-light tracking-wide mb-1" id="qvName">Product Name</h3>
+                    <p class="text-lg font-light text-gray-300 mb-6" id="qvPrice">$0.00</p>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-6" id="qvDesc">Premium quality garment crafted from the finest materials. Designed for the modern individual who values both style and comfort.</p>
+                    
+                    <div class="mb-6">
+                        <p class="text-[10px] tracking-[0.2em] text-gray-400 uppercase mb-3">Color</p>
+                        <div class="flex gap-3" id="qvColors">
+                            <button class="w-6 h-6 rounded-full bg-black border border-gray-600 color-btn active" data-hover></button>
+                            <button class="w-6 h-6 rounded-full bg-[#d4c5b0] border border-gray-600 color-btn" data-hover></button>
+                            <button class="w-6 h-6 rounded-full bg-[#fafafa] border border-gray-600 color-btn" data-hover></button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <p class="text-[10px] tracking-[0.2em] text-gray-400 uppercase mb-3">Size</p>
+                        <div class="flex gap-2 flex-wrap" id="qvSizes">
+                            <button class="size-btn w-10 h-10 border border-gray-600 text-xs tracking-wider" data-hover>XS</button>
+                            <button class="size-btn w-10 h-10 border border-gray-600 text-xs tracking-wider" data-hover>S</button>
+                            <button class="size-btn w-10 h-10 border border-gray-600 text-xs tracking-wider active" data-hover>M</button>
+                            <button class="size-btn w-10 h-10 border border-gray-600 text-xs tracking-wider" data-hover>L</button>
+                            <button class="size-btn w-10 h-10 border border-gray-600 text-xs tracking-wider" data-hover>XL</button>
+                        </div>
+                    </div>
+                    
+                    <button onclick="addToCartFromModal()" class="w-full py-4 bg-white text-black text-xs tracking-[0.3em] uppercase font-medium hover:bg-gray-200 transition-colors mb-3" data-hover>Add to Bag</button>
+                    <button class="w-full py-4 border border-gray-700 text-xs tracking-[0.3em] uppercase font-medium hover:border-white transition-colors" data-hover>Quick Add — M</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="flex flex-col h-full px-8 pt-24 pb-8">
+            <nav class="flex flex-col gap-1">
+                <a href="#" class="text-2xl font-light tracking-wide py-3 border-b border-gray-800" onclick="closeMobileMenu()">Hombre</a>
+                <a href="#" class="text-2xl font-light tracking-wide py-3 border-b border-gray-800" onclick="closeMobileMenu()">Mujer</a>
+                <a href="#collection" class="text-2xl font-light tracking-wide py-3 border-b border-gray-800" onclick="closeMobileMenu()">Nueva Colección</a>
+                <a href="#lookbook" class="text-2xl font-light tracking-wide py-3 border-b border-gray-800" onclick="closeMobileMenu()">Lookbook</a>
+                <a href="#editorial" class="text-2xl font-light tracking-wide py-3 border-b border-gray-800" onclick="closeMobileMenu()">Editorial</a>
+                <a href="#" class="text-2xl font-light tracking-wide py-3 border-b border-gray-800" onclick="closeMobileMenu()">Accesorios</a>
+                <a href="#" class="text-2xl font-light tracking-wide py-3 border-b border-gray-800 text-[#d4c5b0]" onclick="closeMobileMenu()">Sale</a>
+            </nav>
+            <div class="mt-auto">
+                <div class="flex gap-4">
+                    <a href="#" class="text-xs tracking-[0.2em] text-gray-500 uppercase">Instagram</a>
+                    <a href="#" class="text-xs tracking-[0.2em] text-gray-500 uppercase">TikTok</a>
+                    <a href="#" class="text-xs tracking-[0.2em] text-gray-500 uppercase">Pinterest</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12">
+            <div class="flex items-center justify-between h-16 md:h-20">
+                <!-- Left Nav Links -->
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#" class="text-[11px] tracking-[0.2em] uppercase hover:text-gray-400 transition-colors" data-hover>Hombre</a>
+                    <a href="#" class="text-[11px] tracking-[0.2em] uppercase hover:text-gray-400 transition-colors" data-hover>Mujer</a>
+                    <a href="#collection" class="text-[11px] tracking-[0.2em] uppercase hover:text-gray-400 transition-colors" data-hover>Nueva Colección</a>
+                    <a href="#lookbook" class="text-[11px] tracking-[0.2em] uppercase hover:text-gray-400 transition-colors" data-hover>Lookbook</a>
+                    <a href="#editorial" class="text-[11px] tracking-[0.2em] uppercase hover:text-gray-400 transition-colors" data-hover>Editorial</a>
+                    <a href="#" class="text-[11px] tracking-[0.2em] uppercase hover:text-gray-400 transition-colors" data-hover>Accesorios</a>
+                </div>
+                
+                <!-- Logo -->
+                <a href="#" class="text-xl md:text-2xl font-bold tracking-[0.15em] uppercase z-50" data-hover>StyleHub</a>
+                
+                <!-- Right Actions -->
+                <div class="flex items-center gap-4 md:gap-6">
+                    <button class="hidden md:flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase hover:text-gray-400 transition-colors" data-hover onclick="toggleSearch()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                        <span class="hide-mobile">Buscar</span>
+                    </button>
+                    <button class="relative" data-hover onclick="toggleCart()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </button>
+                    <button class="lg:hidden hamburger flex flex-col gap-1.5 p-2" id="hamburgerBtn" onclick="toggleMobileMenu()" data-hover>
+                        <span class="hamburger-line w-5 h-px bg-white block"></span>
+                        <span class="hamburger-line w-5 h-px bg-white block"></span>
+                        <span class="hamburger-line w-5 h-px bg-white block"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="absolute top-full left-0 right-0 bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-gray-800 overflow-hidden" style="max-height: 0; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);" id="searchBar">
+            <div class="max-w-3xl mx-auto px-8 py-6">
+                <input type="text" placeholder="Search products..." class="w-full bg-transparent text-white text-lg font-light tracking-wide outline-none placeholder:text-gray-600">
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="relative h-screen overflow-hidden" id="hero">
+        <div class="hero-slider relative w-full h-full">
+            <div class="hero-slide active" id="heroSlide1">
+                <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/158b28a92-5129-47c5-a815-4953911c21f1.png" alt="StyleHub Hero" class="w-full h-full object-cover" loading="eager">
+                <div class="absolute inset-0 bg-black/30"></div>
+            </div>
+            <div class="hero-slide" id="heroSlide2">
+                <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1fdb53b44-7985-4212-acd3-088ac4cd57a3.png" alt="StyleHub Campaign" class="w-full h-full object-cover" loading="eager">
+                <div class="absolute inset-0 bg-black/20"></div>
+            </div>
+            <div class="hero-slide" id="heroSlide3">
+                <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1414f3465-1150-43b4-85c5-25beaabe6966.png" alt="StyleHub Collection" class="w-full h-full object-cover" loading="eager">
+                <div class="absolute inset-0 bg-black/30"></div>
+            </div>
+        </div>
+        
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
+            <div class="overflow-hidden mb-4">
+                <p class="text-[10px] md:text-xs tracking-[0.4em] uppercase text-gray-400" id="heroSubtitle">Spring / Summer 2026</p>
+            </div>
+            <div class="overflow-hidden">
+                <h1 class="text-4xl md:text-6xl lg:text-8xl font-light tracking-tight leading-[0.9] mb-6" id="heroTitle">
+                    <span class="block">Redefining</span>
+                    <span class="block">Modern Fashion.</span>
+                </h1>
+            </div>
+            <div class="overflow-hidden">
+                <p class="text-sm md:text-base font-light text-gray-300 max-w-md mx-auto mb-10" id="heroDesc">
+                    Colecciones diseñadas para quienes marcan tendencia.
+                </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4" id="heroButtons">
+                <a href="#collection" class="btn-premium relative z-10 px-10 py-4 bg-white text-black text-[11px] tracking-[0.3em] uppercase font-medium" data-hover>Comprar Ahora</a>
+                <a href="#lookbook" class="btn-premium relative z-10 px-10 py-4 border border-white text-white text-[11px] tracking-[0.3em] uppercase font-medium" data-hover>Ver Lookbook</a>
+            </div>
+        </div>
+        
+        <!-- Slide Indicators -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+            <button class="w-8 h-0.5 bg-white transition-all" onclick="goToSlide(0)" data-hover id="slideInd0"></button>
+            <button class="w-8 h-0.5 bg-white/30 transition-all" onclick="goToSlide(1)" data-hover id="slideInd1"></button>
+            <button class="w-8 h-0.5 bg-white/30 transition-all" onclick="goToSlide(2)" data-hover id="slideInd2"></button>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 right-8 z-10 hidden md:flex flex-col items-center gap-2">
+            <span class="text-[9px] tracking-[0.3em] uppercase text-gray-500 rotate-90 origin-center translate-y-8">Scroll</span>
+            <div class="w-px h-12 bg-gray-600 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1/3 bg-white animate-pulse"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Marquee Banner -->
+    <div class="py-4 border-y border-gray-800 overflow-hidden bg-[#0a0a0a]">
+        <div class="marquee whitespace-nowrap">
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">Free Shipping Worldwide</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8"></span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">New Collection Available</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">✦</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">Premium Quality Guaranteed</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8"></span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">Sustainable Fashion</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">✦</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">Free Shipping Worldwide</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">✦</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">New Collection Available</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">✦</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">Premium Quality Guaranteed</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">✦</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">Sustainable Fashion</span>
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gray-500 inline-block mx-8">✦</span>
+        </div>
+    </div>
+    
+    <!-- Lookbook Section -->
+    <section class="py-16 md:py-24 lg:py-32" id="lookbook">
+        <div class="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-12 md:mb-16 fade-up">
+                <div>
+                    <p class="text-[10px] tracking-[0.4em] uppercase text-gray-500 mb-3">Editorial</p>
+                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight">Lookbook</h2>
+                </div>
+                <p class="text-sm text-gray-500 font-light mt-4 md:mt-0 max-w-xs">Explora las últimas tendencias de la temporada a través de nuestra narrativa visual.</p>
+            </div>
+            
+            <!-- Editorial Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4">
+                <!-- Large Left -->
+                <div class="md:col-span-5 lg:col-span-6 lookbook-item group cursor-pointer" onclick="openQuickView(0)" data-hover>
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/126cbf7b2-e8fb-42d9-8dd4-93d89bc8f969.png" alt="Oversized Hoodie" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="lookbook-overlay flex flex-col justify-end p-6">
+                        <p class="text-[10px] tracking-[0.3em] uppercase text-gray-300 mb-1">New Arrival</p>
+                        <h3 class="text-lg font-light tracking-wide mb-1">Oversized Essential Hoodie</h3>
+                        <p class="text-sm text-gray-300 mb-3">$129.00</p>
+                        <span class="text-[10px] tracking-[0.3em] uppercase border-b border-white pb-0.5 inline-block w-fit">Comprar</span>
+                    </div>
+                </div>
+                
+                <!-- Right Column -->
+                <div class="md:col-span-7 lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                    <div class="lookbook-item group cursor-pointer" onclick="openQuickView(1)" data-hover>
+                        <div class="aspect-[3/4] overflow-hidden">
+                            <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/152f98500-a121-4733-bf6f-7cbf87218ffb.png" alt="Graphic Tee" class="w-full h-full object-cover" loading="lazy">
+                        </div>
+                        <div class="lookbook-overlay flex flex-col justify-end p-4">
+                            <p class="text-[10px] tracking-[0.3em] uppercase text-gray-300 mb-1">Graphic Tee</p>
+                            <h3 class="text-base font-light tracking-wide mb-1">Circle Oversized Tee</h3>
+                            <p class="text-sm text-gray-300">$79.00</p>
+                        </div>
+                    </div>
+                    <div class="lookbook-item group cursor-pointer" onclick="openQuickView(2)" data-hover>
+                        <div class="aspect-[3/4] overflow-hidden">
+                            <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1cd0c70a3-57bf-43df-a553-1adb7bc2e28b.png" alt="Wide Leg Jeans" class="w-full h-full object-cover" loading="lazy">
+                        </div>
+                        <div class="lookbook-overlay flex flex-col justify-end p-4">
+                            <p class="text-[10px] tracking-[0.3em] uppercase text-gray-300 mb-1">Essential</p>
+                            <h3 class="text-base font-light tracking-wide mb-1">Wide Leg Black Denim</h3>
+                            <p class="text-sm text-gray-300">$149.00</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bottom Row -->
+                <div class="md:col-span-4 lookbook-item group cursor-pointer" onclick="openQuickView(3)" data-hover>
+                    <div class="aspect-[4/5] overflow-hidden">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1ac4c53c4-e9bc-4faf-b0e8-dea5e0839c7f.png" alt="Premium Sneakers" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="lookbook-overlay flex flex-col justify-end p-4">
+                        <p class="text-[10px] tracking-[0.3em] uppercase text-gray-300 mb-1">Footwear</p>
+                        <h3 class="text-base font-light tracking-wide mb-1">Minimal Sneaker White</h3>
+                        <p class="text-sm text-gray-300">$189.00</p>
+                    </div>
+                </div>
+                <div class="md:col-span-4 lookbook-item group cursor-pointer" onclick="openQuickView(4)" data-hover>
+                    <div class="aspect-[4/5] overflow-hidden">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1538953b5-dde5-4b0e-a55b-ce363e9d4867.png" alt="Silver Accessories" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="lookbook-overlay flex flex-col justify-end p-4">
+                        <p class="text-[10px] tracking-[0.3em] uppercase text-gray-300 mb-1">Accessories</p>
+                        <h3 class="text-base font-light tracking-wide mb-1">Silver Chain Set</h3>
+                        <p class="text-sm text-gray-300">$69.00</p>
+                    </div>
+                </div>
+                <div class="md:col-span-4 lookbook-item group cursor-pointer" onclick="openQuickView(5)" data-hover>
+                    <div class="aspect-[4/5] overflow-hidden">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1414f3465-1150-43b4-85c5-25beaabe6966.png" alt="Leather Jacket" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="lookbook-overlay flex flex-col justify-end p-4">
+                        <p class="text-[10px] tracking-[0.3em] uppercase text-gray-300 mb-1">Outerwear</p>
+                        <h3 class="text-base font-light tracking-wide mb-1">Biker Leather Jacket</h3>
+                        <p class="text-sm text-gray-300">$349.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Full Width Lookbook Banner -->
+    <section class="relative h-[60vh] md:h-[80vh] overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1f42d6b27-53ae-4f49-891f-b1900aa8f35c.png" alt="Campaign" class="w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-0 bg-black/40"></div>
+        </div>
+        <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+            <p class="text-[10px] tracking-[0.4em] uppercase text-gray-300 mb-4 fade-up">Campaign SS26</p>
+            <h2 class="text-3xl md:text-6xl lg:text-7xl font-light tracking-tight mb-6 fade-up fade-in">The Art of<br>Modern Dressing</h2>
+            <a href="#collection" class="btn-premium relative z-10 px-10 py-4 bg-white text-black text-[11px] tracking-[0.3em] uppercase font-medium fade-up fade-in" data-hover>Explore Collection</a>
+        </div>
+    </section>
+    
+    <!-- New Collection Section -->
+    <section class="py-16 md:py-24 lg:py-32" id="collection">
+        <div class="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-10 md:mb-14 fade-up">
+                <div>
+                    <p class="text-[10px] tracking-[0.4em] uppercase text-gray-500 mb-3">Shop</p>
+                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight">Nueva Colección</h2>
+                </div>
+            </div>
+            
+            <!-- Filter Tabs -->
+            <div class="flex gap-6 mb-10 md:mb-14 overflow-x-auto pb-2 fade-up">
+                <button class="filter-btn text-[11px] tracking-[0.2em] uppercase pb-1 active whitespace-nowrap" data-hover onclick="filterProducts('all', this)">Todo</button>
+                <button class="filter-btn text-[11px] tracking-[0.2em] uppercase pb-1 text-gray-500 whitespace-nowrap" data-hover onclick="filterProducts('tops', this)">Tops</button>
+                <button class="filter-btn text-[11px] tracking-[0.2em] uppercase pb-1 text-gray-500 whitespace-nowrap" data-hover onclick="filterProducts('bottoms', this)">Bottoms</button>
+                <button class="filter-btn text-[11px] tracking-[0.2em] uppercase pb-1 text-gray-500 whitespace-nowrap" data-hover onclick="filterProducts('outerwear', this)">Outerwear</button>
+                <button class="filter-btn text-[11px] tracking-[0.2em] uppercase pb-1 text-gray-500 whitespace-nowrap" data-hover onclick="filterProducts('accessories', this)">Accesorios</button>
+            </div>
+            
+            <!-- Product Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-6 md:gap-x-4 md:gap-y-8" id="productGrid">
+                <!-- Product 1 -->
+                <div class="product-card group cursor-pointer fade-up" data-category="tops" onclick="openQuickView(0)">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#111]">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/126cbf7b2-e8fb-42d9-8dd4-93d89bc8f969.png" alt="Hoodie" class="product-img-primary w-full h-full object-cover" loading="lazy">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/118571fae-0dda-4247-99d5-7ddce7321daf.png" alt="Hoodie flat" class="product-img-secondary w-full h-full object-cover" loading="lazy">
+                        <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm" data-hover onclick="event.stopPropagation(); toggleWishlist(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <button class="w-full py-3 bg-white text-black text-[10px] tracking-[0.2em] uppercase font-medium" data-hover onclick="event.stopPropagation(); quickAdd('Oversized Essential Hoodie', 129)">Quick Add</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 md:mt-4">
+                        <h3 class="text-xs md:text-sm font-light tracking-wide">Oversized Essential Hoodie</h3>
+                        <p class="text-xs text-gray-400 mt-1">$129.00</p>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card group cursor-pointer fade-up" data-category="tops" onclick="openQuickView(1)">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#111]">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/152f98500-a121-4733-bf6f-7cbf87218ffb.png" alt="Graphic Tee" class="product-img-primary w-full h-full object-cover" loading="lazy">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1fbe1e72d-d88b-478b-bcb9-72f1744b7ecd.png" alt="Graphic Tee alt" class="product-img-secondary w-full h-full object-cover" loading="lazy">
+                        <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm" data-hover onclick="event.stopPropagation(); toggleWishlist(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <button class="w-full py-3 bg-white text-black text-[10px] tracking-[0.2em] uppercase font-medium" data-hover onclick="event.stopPropagation(); quickAdd('Circle Oversized Tee', 79)">Quick Add</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 md:mt-4">
+                        <h3 class="text-xs md:text-sm font-light tracking-wide">Circle Oversized Tee</h3>
+                        <p class="text-xs text-gray-400 mt-1">$79.00</p>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card group cursor-pointer fade-up" data-category="bottoms" onclick="openQuickView(2)">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#111]">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1cd0c70a3-57bf-43df-a553-1adb7bc2e28b.png" alt="Wide Leg Jeans" class="product-img-primary w-full h-full object-cover" loading="lazy">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1ce0e1fed-e897-466a-aaa9-9e1d9e1a4ad2.png" alt="Wide Leg Jeans alt" class="product-img-secondary w-full h-full object-cover" loading="lazy">
+                        <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm" data-hover onclick="event.stopPropagation(); toggleWishlist(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <button class="w-full py-3 bg-white text-black text-[10px] tracking-[0.2em] uppercase font-medium" data-hover onclick="event.stopPropagation(); quickAdd('Wide Leg Black Denim', 149)">Quick Add</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 md:mt-4">
+                        <h3 class="text-xs md:text-sm font-light tracking-wide">Wide Leg Black Denim</h3>
+                        <p class="text-xs text-gray-400 mt-1">$149.00</p>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card group cursor-pointer fade-up" data-category="accessories" onclick="openQuickView(3)">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#111]">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1ac4c53c4-e9bc-4faf-b0e8-dea5e0839c7f.png" alt="Sneakers" class="product-img-primary w-full h-full object-cover" loading="lazy">
+                        <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm" data-hover onclick="event.stopPropagation(); toggleWishlist(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <button class="w-full py-3 bg-white text-black text-[10px] tracking-[0.2em] uppercase font-medium" data-hover onclick="event.stopPropagation(); quickAdd('Minimal Sneaker White', 189)">Quick Add</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 md:mt-4">
+                        <h3 class="text-xs md:text-sm font-light tracking-wide">Minimal Sneaker White</h3>
+                        <p class="text-xs text-gray-400 mt-1">$189.00</p>
+                    </div>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="product-card group cursor-pointer fade-up" data-category="accessories" onclick="openQuickView(4)">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#111]">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1538953b5-dde5-4b0e-a55b-ce363e9d4867.png" alt="Silver Chain" class="product-img-primary w-full h-full object-cover" loading="lazy">
+                        <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm" data-hover onclick="event.stopPropagation(); toggleWishlist(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <button class="w-full py-3 bg-white text-black text-[10px] tracking-[0.2em] uppercase font-medium" data-hover onclick="event.stopPropagation(); quickAdd('Silver Chain Set', 69)">Quick Add</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 md:mt-4">
+                        <h3 class="text-xs md:text-sm font-light tracking-wide">Silver Chain Set</h3>
+                        <p class="text-xs text-gray-400 mt-1">$69.00</p>
+                    </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="product-card group cursor-pointer fade-up" data-category="outerwear" onclick="openQuickView(5)">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#111]">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1414f3465-1150-43b4-85c5-25beaabe6966.png" alt="Leather Jacket" class="product-img-primary w-full h-full object-cover" loading="lazy">
+                        <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm" data-hover onclick="event.stopPropagation(); toggleWishlist(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <button class="w-full py-3 bg-white text-black text-[10px] tracking-[0.2em] uppercase font-medium" data-hover onclick="event.stopPropagation(); quickAdd('Biker Leather Jacket', 349)">Quick Add</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 md:mt-4">
+                        <h3 class="text-xs md:text-sm font-light tracking-wide">Biker Leather Jacket</h3>
+                        <p class="text-xs text-gray-400 mt-1">$349.00</p>
+                    </div>
+                </div>
+                
+                <!-- Product 7 -->
+                <div class="product-card group cursor-pointer fade-up" data-category="tops" onclick="openQuickView(6)">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#111]">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/10c4bdfed-175f-406a-8a8c-63ea3d30e65a.png" alt="Knit Sweater" class="product-img-primary w-full h-full object-cover" loading="lazy">
+                        <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm" data-hover onclick="event.stopPropagation(); toggleWishlist(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <button class="w-full py-3 bg-white text-black text-[10px] tracking-[0.2em] uppercase font-medium" data-hover onclick="event.stopPropagation(); quickAdd('Essential Knit Sweater', 159)">Quick Add</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 md:mt-4">
+                        <h3 class="text-xs md:text-sm font-light tracking-wide">Essential Knit Sweater</h3>
+                        <p class="text-xs text-gray-400 mt-1">$159.00</p>
+                    </div>
+                </div>
+                
+                <!-- Product 8 -->
+                <div class="product-card group cursor-pointer fade-up" data-category="tops" onclick="openQuickView(7)">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#111]">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1dfe700bc-dc33-40f1-b754-f188235ba360.png" alt="Linen Shirt" class="product-img-primary w-full h-full object-cover" loading="lazy">
+                        <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm" data-hover onclick="event.stopPropagation(); toggleWishlist(this)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <button class="w-full py-3 bg-white text-black text-[10px] tracking-[0.2em] uppercase font-medium" data-hover onclick="event.stopPropagation(); quickAdd('Summer Linen Shirt', 119)">Quick Add</button>
+                        </div>
+                    </div>
+                    <div class="mt-3 md:mt-4">
+                        <h3 class="text-xs md:text-sm font-light tracking-wide">Summer Linen Shirt</h3>
+                        <p class="text-xs text-gray-400 mt-1">$119.00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 md:mt-16">
+                <a href="#" class="btn-premium relative z-10 inline-block px-12 py-4 border border-white text-white text-[11px] tracking-[0.3em] uppercase font-medium" data-hover>Ver Todo</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Editorial Section -->
+    <section class="py-16 md:py-24 lg:py-32 bg-[#0d0d0d]" id="editorial">
+        <div class="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12">
+            <div class="mb-12 md:mb-16 fade-up">
+                <p class="text-[10px] tracking-[0.4em] uppercase text-gray-500 mb-3">Stories</p>
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight">Editorial</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+                <!-- Large Article -->
+                <div class="md:col-span-7 editorial-card group cursor-pointer fade-up">
+                    <div class="aspect-[16/10] overflow-hidden mb-5">
+                        <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1f42d6b27-53ae-4f49-891f-b1900aa8f35c.png" alt="Editorial" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="flex items-center gap-4 mb-3">
+                        <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500">Tendencias</span>
+                        <span class="text-[10px] text-gray-600">•</span>
+                        <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500">5 min lectura</span>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-light tracking-wide mb-2 group-hover:text-gray-300 transition-colors">Streetwear 2026: La Evolución del Estilo Urbano</h3>
+                    <p class="text-sm text-gray-500 font-light leading-relaxed max-w-lg">Descubre las tendencias que definirán el streetwear en 2026. Desde siluetas oversized hasta materiales innovadores, exploramos el futuro de la moda urbana.</p>
+                </div>
+                
+                <!-- Side Articles -->
+                <div class="md:col-span-5 flex flex-col gap-4 md:gap-6">
+                    <div class="editorial-card group cursor-pointer fade-up">
+                        <div class="aspect-[4/3] overflow-hidden mb-4">
+                            <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1dfe700bc-dc33-40f1-b754-f188235ba360.png" alt="Summer" class="w-full h-full object-cover" loading="lazy">
+                        </div>
+                        <div class="flex items-center gap-4 mb-2">
+                            <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500">Essentials</span>
+                            <span class="text-[10px] text-gray-600">•</span>
+                            <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500">3 min</span>
+                        </div>
+                        <h3 class="text-lg font-light tracking-wide group-hover:text-gray-300 transition-colors">Summer Essentials: Guía Completa</h3>
+                    </div>
+                    
+                    <div class="editorial-card group cursor-pointer fade-up">
+                        <div class="aspect-[4/3] overflow-hidden mb-4">
+                            <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/173103e2a-72b3-426c-8478-5ff82dd83d7e.png" alt="Store" class="w-full h-full object-cover" loading="lazy">
+                        </div>
+                        <div class="flex items-center gap-4 mb-2">
+                            <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500">Brand</span>
+                            <span class="text-[10px] text-gray-600">•</span>
+                            <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500">4 min</span>
+                        </div>
+                        <h3 class="text-lg font-light tracking-wide group-hover:text-gray-300 transition-colors">Minimal Luxury: La Filosofía StyleHub</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Campaign Carousel -->
+    <section class="py-16 md:py-24 lg:py-32 overflow-hidden" id="campaigns">
+        <div class="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-10 md:mb-14 fade-up">
+                <div>
+                    <p class="text-[10px] tracking-[0.4em] uppercase text-gray-500 mb-3">Campaigns</p>
+                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight">Campañas</h2>
+                </div>
+                <div class="flex gap-3 mt-4 md:mt-0">
+                    <button class="w-10 h-10 border border-gray-700 flex items-center justify-center hover:border-white transition-colors" onclick="prevCampaign()" data-hover>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button class="w-10 h-10 border border-gray-700 flex items-center justify-center hover:border-white transition-colors" onclick="nextCampaign()" data-hover>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="campaign-carousel flex gap-4 md:gap-6 px-4 md:px-8 lg:px-12 overflow-x-auto snap-x snap-mandatory scrollbar-hide" id="campaignCarousel" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <div class="campaign-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] snap-center">
+                <div class="aspect-[3/4] overflow-hidden">
+                    <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/158b28a92-5129-47c5-a815-4953911c21f1.png" alt="Campaign 1" class="w-full h-full object-cover" loading="lazy">
+                </div>
+                <div class="mt-4">
+                    <p class="text-[10px] tracking-[0.3em] uppercase text-gray-500">SS26 Campaign</p>
+                    <h3 class="text-lg font-light tracking-wide mt-1">Elegance Redefined</h3>
+                </div>
+            </div>
+            <div class="campaign-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] snap-center">
+                <div class="aspect-[3/4] overflow-hidden">
+                    <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1f42d6b27-53ae-4f49-891f-b1900aa8f35c.png" alt="Campaign 2" class="w-full h-full object-cover" loading="lazy">
+                </div>
+                <div class="mt-4">
+                    <p class="text-[10px] tracking-[0.3em] uppercase text-gray-500">SS26 Campaign</p>
+                    <h3 class="text-lg font-light tracking-wide mt-1">Urban Collective</h3>
+                </div>
+            </div>
+            <div class="campaign-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] snap-center">
+                <div class="aspect-[3/4] overflow-hidden">
+                    <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1414f3465-1150-43b4-85c5-25beaabe6966.png" alt="Campaign 3" class="w-full h-full object-cover" loading="lazy">
+                </div>
+                <div class="mt-4">
+                    <p class="text-[10px] tracking-[0.3em] uppercase text-gray-500">SS26 Campaign</p>
+                    <h3 class="text-lg font-light tracking-wide mt-1">Night Edition</h3>
+                </div>
+            </div>
+            <div class="campaign-slide flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] snap-center">
+                <div class="aspect-[3/4] overflow-hidden">
+                    <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/10c4bdfed-175f-406a-8a8c-63ea3d30e65a.png" alt="Campaign 4" class="w-full h-full object-cover" loading="lazy">
+                </div>
+                <div class="mt-4">
+                    <p class="text-[10px] tracking-[0.3em] uppercase text-gray-500">SS26 Campaign</p>
+                    <h3 class="text-lg font-light tracking-wide mt-1">Quiet Luxury</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <section class="py-16 md:py-24 lg:py-32 relative overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/173103e2a-72b3-426c-8478-5ff82dd83d7e.png" alt="Newsletter bg" class="w-full h-full object-cover opacity-20" loading="lazy">
+            <div class="absolute inset-0 bg-[#0a0a0a]/80"></div>
+        </div>
+        <div class="relative z-10 max-w-2xl mx-auto text-center px-4 md:px-8">
+            <p class="text-[10px] tracking-[0.4em] uppercase text-gray-500 mb-4 fade-up">Community</p>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight mb-4 fade-up fade-in">Join the StyleHub<br>Community.</h2>
+            <p class="text-sm text-gray-400 font-light mb-8 max-w-md mx-auto fade-up fade-in">Suscríbete para recibir acceso exclusivo a nuevas colecciones, ofertas especiales y contenido editorial.</p>
+            <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto fade-up fade-in" onsubmit="handleNewsletter(event)">
+                <input type="email" placeholder="Tu email" class="newsletter-input flex-1 py-3 text-sm tracking-wide placeholder:text-gray-600" required>
+                <button type="submit" class="px-8 py-3 bg-white text-black text-[11px] tracking-[0.2em] uppercase font-medium hover:bg-gray-200 transition-colors" data-hover>Suscribir</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 py-12 md:py-16">
+        <div class="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12">
+                <!-- Brand -->
+                <div class="col-span-2 md:col-span-4 lg:col-span-1 mb-4 md:mb-0">
+                    <a href="#" class="text-xl font-bold tracking-[0.15em] uppercase" data-hover>StyleHub</a>
+                    <p class="text-xs text-gray-500 mt-3 font-light leading-relaxed max-w-xs">Redefining modern fashion through minimalist design and premium quality.</p>
+                </div>
+                
+                <!-- Shop -->
+                <div>
+                    <h4 class="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-4">Shop</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Hombre</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Mujer</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Nueva Colección</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Accesorios</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Sale</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Company -->
+                <div>
+                    <h4 class="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>About Us</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Careers</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Press</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Sustainability</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div>
+                    <h4 class="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Contact</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Shipping</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Returns</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Size Guide</a></li>
+                        <li><a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social -->
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-4">Social</h4>
+                    <div class="flex gap-4">
+                        <a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Instagram</a>
+                        <a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>TikTok</a>
+                        <a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" data-hover>Pinterest</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-[10px] text-gray-600 tracking-[0.1em]">© 2026 StyleHub. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-[10px] text-gray-600 hover:text-gray-400 transition-colors" data-hover>Privacy Policy</a>
+                    <a href="#" class="text-[10px] text-gray-600 hover:text-gray-400 transition-colors" data-hover>Terms of Service</a>
+                    <a href="#" class="text-[10px] text-gray-600 hover:text-gray-400 transition-colors" data-hover>Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Product data
+        const products = [
+            { name: "Oversized Essential Hoodie", price: 129, category: "New Collection", desc: "Premium heavyweight cotton hoodie with relaxed fit. Features kangaroo pocket and ribbed cuffs.", img: "https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/126cbf7b2-e8fb-42d9-8dd4-93d89bc8f969.png" },
+            { name: "Circle Oversized Tee", price: 79, category: "New Collection", desc: "100% organic cotton oversized tee with geometric graphic print. Relaxed silhouette.", img: "https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/152f98500-a121-4733-bf6f-7cbf87218ffb.png" },
+            { name: "Wide Leg Black Denim", price: 149, category: "Essential", desc: "Premium Japanese selvedge denim with wide leg cut. High-rise waist with clean hem.", img: "https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1cd0c70a3-57bf-43df-a553-1adb7bc2e28b.png" },
+            { name: "Minimal Sneaker White", price: 189, category: "Footwear", desc: "Handcrafted Italian leather sneakers with minimal branding. Premium rubber sole.", img: "https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1ac4c53c4-e9bc-4faf-b0e8-dea5e0839c7f.png" },
+            { name: "Silver Chain Set", price: 69, category: "Accessories", desc: "Sterling silver chain necklace and ring set. Minimalist design with premium finish.", img: "https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1538953b5-dde5-4b0e-a55b-ce363e9d4867.png" },
+            { name: "Biker Leather Jacket", price: 349, category: "Outerwear", desc: "Genuine lambskin leather jacket with asymmetric zip. Fully lined with premium hardware.", img: "https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1414f3465-1150-43b4-85c5-25beaabe6966.png" },
+            { name: "Essential Knit Sweater", price: 159, category: "New Collection", desc: "Merino wool turtleneck sweater in premium knit. Soft touch with elegant drape.", img: "https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/10c4bdfed-175f-406a-8a8c-63ea3d30e65a.png" },
+            { name: "Summer Linen Shirt", price: 119, category: "New Collection", desc: "Pure linen short-sleeve shirt with relaxed camp collar. Perfect for warm weather.", img: "https://image.qwenlm.ai/public_source/8faca417-29ab-4cc8-bf87-842fde8b7419/1dfe700bc-dc33-40f1-b754-f188235ba360.png" }
+        ];
+        
+        let cartCount = 0;
+        let currentSlide = 0;
+        let heroInterval;
+        
+        // Loading Screen
+        function initLoader() {
+            const loader = document.getElementById('loader');
+            const loaderBar = document.getElementById('loaderBar');
+            const loaderPercent = document.getElementById('loaderPercent');
+            const loaderText = document.getElementById('loaderText');
+            const chars = loaderText.querySelectorAll('span');
+            
+            // Animate chars
+            chars.forEach((char, i) => {
+                gsap.fromTo(char, { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, delay: 0.3 + i * 0.06, ease: "power3.out" });
+            });
+            
+            // Progress bar
+            let progress = 0;
+            const loadInterval = setInterval(() => {
+                progress += Math.random() * 15 + 5;
+                if (progress > 100) progress = 100;
+                loaderBar.style.width = progress + '%';
+                loaderPercent.textContent = Math.round(progress) + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(loadInterval);
+                    setTimeout(() => {
+                        gsap.to(loader, { yPercent: -100, duration: 0.8, ease: "power4.inOut", onComplete: () => {
+                            loader.style.display = 'none';
+                            initAnimations();
+                        }});
+                    }, 400);
+                }
+            }, 200);
+        }
+        
+        // Custom Cursor
+        function initCursor() {
+            if (window.innerWidth <= 768) return;
+            
+            const dot = document.getElementById('cursorDot');
+            const ring = document.getElementById('cursorRing');
+            let mouseX = 0, mouseY = 0;
+            let ringX = 0, ringY = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                dot.style.left = mouseX - 4 + 'px';
+                dot.style.top = mouseY - 4 + 'px';
+            });
+            
+            function animateRing() {
+                ringX += (mouseX - ringX) * 0.15;
+                ringY += (mouseY - ringY) * 0.15;
+                ring.style.left = ringX - 20 + 'px';
+                ring.style.top = ringY - 20 + 'px';
+                requestAnimationFrame(animateRing);
+            }
+            animateRing();
+            
+            document.querySelectorAll('[data-hover]').forEach(el => {
+                el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+                el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+            });
+        }
+        
+        // Navbar Scroll
+        function initNavbar() {
+            const navbar = document.getElementById('navbar');
+            let lastScroll = 0;
+            
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                if (scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                lastScroll = scrollY;
+            });
+        }
+        
+        // Hero Slider
+        function initHeroSlider() {
+            const slides = document.querySelectorAll('.hero-slide');
+            const indicators = [document.getElementById('slideInd0'), document.getElementById('slideInd1'), document.getElementById('slideInd2')];
+            
+            window.goToSlide = function(index) {
+                slides[currentSlide].classList.remove('active');
+                indicators[currentSlide].style.background = 'rgba(255,255,255,0.3)';
+                currentSlide = index;
+                slides[currentSlide].classList.add('active');
+                indicators[currentSlide].style.background = '#fff';
+                
+                // Reset auto-play
+                clearInterval(heroInterval);
+                heroInterval = setInterval(() => {
+                    const next = (currentSlide + 1) % slides.length;
+                    goToSlide(next);
+                }, 5000);
+            };
+            
+            heroInterval = setInterval(() => {
+                const next = (currentSlide + 1) % slides.length;
+                goToSlide(next);
+            }, 5000);
+        }
+        
+        // GSAP Scroll Animations
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Fade up elements
+            gsap.utils.toArray('.fade-up').forEach(el => {
+                gsap.fromTo(el, 
+                    { opacity: 0, y: 40 },
+                    {
+                        opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
+                        scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
+                    }
+                );
+            });
+            
+            // Fade in elements
+            gsap.utils.toArray('.fade-in').forEach(el => {
+                gsap.fromTo(el,
+                    { opacity: 0 },
+                    {
+                        opacity: 1, duration: 1, delay: 0.3, ease: "power2.out",
+                        scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
+                    }
+                );
+            });
+            
+            // Hero parallax
+            gsap.to('#hero img', {
+                y: 100,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+            
+            // Hero text parallax
+            gsap.to('#heroTitle', {
+                y: -50,
+                opacity: 0,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: '60% top',
+                    scrub: 1
+                }
+            });
+        }
+        
+        // Search Toggle
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            const isExpanded = searchBar.style.maxHeight !== '0px' && searchBar.style.maxHeight !== '';
+            searchBar.style.maxHeight = isExpanded ? '0' : '80px';
+        }
+        
+        // Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburgerBtn');
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburgerBtn');
+            menu.classList.remove('active');
+            hamburger.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Quick View Modal
+        function openQuickView(index) {
+            const modal = document.getElementById('quickViewModal');
+            const product = products[index];
+            
+            document.getElementById('qvImage').src = product.img;
+            document.getElementById('qvImage').alt = product.name;
+            document.getElementById('qvName').textContent = product.name;
+            document.getElementById('qvPrice').textContent = '$' + product.price.toFixed(2);
+            document.getElementById('qvCategory').textContent = product.category;
+            document.getElementById('qvDesc').textContent = product.desc;
+            
+            // Reset size selection
+            document.querySelectorAll('#qvSizes .size-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('#qvSizes .size-btn')[2].classList.add('active');
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeQuickView() {
+            const modal = document.getElementById('quickViewModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Size Selection
+        document.querySelectorAll('#qvSizes .size-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#qvSizes .size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+        
+        // Color Selection
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+        
+        // Cart
+        function addToCartFromModal() {
+            const name = document.getElementById('qvName').textContent;
+            cartCount++;
+            updateCartBadge();
+            showToast('Added to bag — ' + name);
+            closeQuickView();
+        }
+        
+        function quickAdd(name, price) {
+            cartCount++;
+            updateCartBadge();
+            showToast('Added to bag — ' + name);
+        }
+        
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            badge.textContent = cartCount;
+            badge.classList.add('show');
+            if (cartCount === 0) badge.classList.remove('show');
+        }
+        
+        // Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+        
+        // Wishlist Toggle
+        function toggleWishlist(btn) {
+            const svg = btn.querySelector('svg');
+            const isFilled = svg.getAttribute('fill') === 'white';
+            svg.setAttribute('fill', isFilled ? 'none' : 'white');
+            svg.setAttribute('stroke', isFilled ? 'white' : '#d4c5b0');
+        }
+        
+        // Product Filter
+        function filterProducts(category, btn) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('active');
+                b.classList.add('text-gray-500');
+            });
+            btn.classList.add('active');
+            btn.classList.remove('text-gray-500');
+            
+            // Filter products
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = '';
+                    gsap.fromTo(card, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" });
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Campaign Carousel
+        function nextCampaign() {
+            const carousel = document.getElementById('campaignCarousel');
+            carousel.scrollBy({ left: carousel.offsetWidth * 0.6, behavior: 'smooth' });
+        }
+        
+        function prevCampaign() {
+            const carousel = document.getElementById('campaignCarousel');
+            carousel.scrollBy({ left: -carousel.offsetWidth * 0.6, behavior: 'smooth' });
+        }
+        
+        // Newsletter
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const input = e.target.querySelector('input');
+            showToast('Welcome to StyleHub! Check your inbox.');
+            input.value = '';
+        }
+        
+        // Cart Toggle (placeholder)
+        function toggleCart() {
+            if (cartCount === 0) {
+                showToast('Your bag is empty');
+            } else {
+                showToast(cartCount + ' item' + (cartCount > 1 ? 's' : '') + ' in your bag');
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoader();
+            initCursor();
+            initNavbar();
+            initHeroSlider();
+        });
+        
+        // Keyboard support for modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeQuickView();
+                closeMobileMenu();
+            }
+        });
+    </script>
+</body>
+</html>
+

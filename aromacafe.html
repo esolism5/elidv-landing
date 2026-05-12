@@ -1,0 +1,1433 @@
+
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AromaCafé - Café artesanal premium. Cada taza cuenta una historia. Descubre nuestro café de especialidad, preparado con pasión y los mejores granos del mundo.">
+    <meta name="keywords" content="café artesanal, café premium, specialty coffee, AromaCafé, café de especialidad">
+    <meta name="author" content="AromaCafé">
+    <meta property="og:title" content="AromaCafé - Café Artesanal Premium">
+    <meta property="og:description" content="Cada taza cuenta una historia. Café artesanal premium preparado para quienes disfrutan los pequeños detalles.">
+    <meta property="og:type" content="website">
+    <title>AromaCafé — Café Artesanal Premium</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        coffee: {
+                            900: '#1A120B',
+                            800: '#2C1E16',
+                            700: '#3C2A21',
+                            600: '#4A3728',
+                            500: '#5C4033',
+                        },
+                        cream: {
+                            100: '#F5F5E8',
+                            200: '#E5E5CB',
+                            300: '#D5CEA3',
+                            400: '#C5BC8B',
+                        },
+                        gold: {
+                            300: '#E8D5A3',
+                            400: '#D4B978',
+                            500: '#C9A84C',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['"Playfair Display"', 'serif'],
+                        body: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1A120B; }
+        ::-webkit-scrollbar-thumb { background: #3C2A21; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D5CEA3; }
+
+        html { overflow-x: hidden; }
+
+        .cursor-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(213,206,163,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+        }
+
+        .cursor-glow.hidden-cursor { opacity: 0; }
+
+        @media (max-width: 768px) { .cursor-glow { display: none; } }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #1A120B;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .loader-coffee {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #3C2A21;
+            border-top-color: #D5CEA3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            font-family: 'Playfair Display', serif;
+            color: #D5CEA3;
+            font-size: 1.25rem;
+            letter-spacing: 0.3em;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+        .smoke-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: smokeRise linear infinite;
+        }
+
+        @keyframes smokeRise {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.6; }
+            25% { transform: translateY(-30px) translateX(5px) scale(1.5); opacity: 0.4; }
+            50% { transform: translateY(-60px) translateX(-3px) scale(2); opacity: 0.2; }
+            75% { transform: translateY(-90px) translateX(8px) scale(2.5); opacity: 0.1; }
+            100% { transform: translateY(-120px) translateX(0) scale(3); opacity: 0; }
+        }
+
+        .coffee-bean {
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            background: #3C2A21;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: floatBean linear infinite;
+        }
+
+        .coffee-bean::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60%;
+            height: 1px;
+            background: #1A120B;
+            transform: translate(-50%, -50%) rotate(15deg);
+        }
+
+        @keyframes floatBean {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(90deg); }
+            50% { transform: translateY(-40px) rotate(180deg); }
+            75% { transform: translateY(-20px) rotate(270deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        .glass-card {
+            background: rgba(60, 42, 33, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(213, 206, 163, 0.1);
+        }
+
+        .glass-nav {
+            background: rgba(26, 18, 11, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(213, 206, 163, 0.08);
+        }
+
+        .nav-transparent {
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(213, 206, 163, 0.05);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #D5CEA3 0%, #C5BC8B 100%);
+            color: #1A120B;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before { left: 100%; }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 30px rgba(213, 206, 163, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid rgba(213, 206, 163, 0.4);
+            color: #D5CEA3;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background: rgba(213, 206, 163, 0.1);
+            border-color: #D5CEA3;
+            box-shadow: 0 0 20px rgba(213, 206, 163, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #D5CEA3, #E5E5CB, #D5CEA3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .line-decoration {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #D5CEA3, transparent);
+        }
+
+        .line-decoration-center {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #D5CEA3, transparent);
+            margin: 0 auto;
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .gallery-item img {
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .star-rating { color: #D5CEA3; }
+
+        .subscription-card {
+            transition: all 0.4s ease;
+        }
+
+        .subscription-card:hover {
+            border-color: rgba(213, 206, 163, 0.3);
+        }
+
+        .subscription-card.featured {
+            border-color: rgba(213, 206, 163, 0.3);
+            background: rgba(60, 42, 33, 0.4);
+        }
+
+        .parallax-layer {
+            will-change: transform;
+        }
+
+        @media (max-width: 640px) {
+            .hero-title { font-size: 2.25rem !important; }
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #D5CEA3;
+            opacity: 0.4;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            opacity: 1;
+            box-shadow: 0 0 10px rgba(213, 206, 163, 0.5);
+        }
+
+        .newsletter-input {
+            background: rgba(60, 42, 33, 0.3);
+            border: 1px solid rgba(213, 206, 163, 0.15);
+            color: #E5E5CB;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: rgba(213, 206, 163, 0.4);
+            box-shadow: 0 0 20px rgba(213, 206, 163, 0.05);
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(229, 229, 203, 0.4);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #D5CEA3;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after { width: 100%; }
+
+        .hamburger-line {
+            width: 24px;
+            height: 2px;
+            background: #D5CEA3;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active .hamburger-line:nth-child(2) { opacity: 0; }
+        .hamburger.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+    </style>
+</head>
+<body class="bg-coffee-900 text-cream-200 font-body overflow-x-hidden">
+
+    <!-- Cursor Glow (Desktop Only) -->
+    <div id="cursorGlow" class="cursor-glow hidden-cursor"></div>
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="loader-coffee"></div>
+        <div class="loader-text">AROMACAFÉ</div>
+    </div>
+
+    <!-- Coffee Bean Particles Container -->
+    <div id="beanParticles" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-0 z-50 bg-coffee-900/98 backdrop-blur-xl flex flex-col">
+        <button id="closeMobileMenu" class="absolute top-6 right-6 text-cream-300 p-2" aria-label="Cerrar menú">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <div class="flex flex-col items-center justify-center h-full gap-8">
+            <a href="#inicio" class="text-2xl font-display text-cream-300 mobile-link transition-colors hover:text-gold-400">Inicio</a>
+            <a href="#historia" class="text-2xl font-display text-cream-300 mobile-link transition-colors hover:text-gold-400">Nosotros</a>
+            <a href="#menu" class="text-2xl font-display text-cream-300 mobile-link transition-colors hover:text-gold-400">Menú</a>
+            <a href="#suscripciones" class="text-2xl font-display text-cream-300 mobile-link transition-colors hover:text-gold-400">Suscripciones</a>
+            <a href="#contacto" class="text-2xl font-display text-cream-300 mobile-link transition-colors hover:text-gold-400">Contacto</a>
+            <a href="#pedido" class="btn-primary px-8 py-3 rounded-full font-medium mt-4 text-lg">Ordenar ahora</a>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 nav-transparent transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 md:h-20">
+                <a href="#inicio" class="flex items-center gap-2 group">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" class="transition-transform group-hover:rotate-12">
+                        <circle cx="16" cy="18" r="10" stroke="#D5CEA3" stroke-width="1.5" fill="none"/>
+                        <path d="M26 16C28 16 29 17 29 19C29 21 28 22 26 22" stroke="#D5CEA3" stroke-width="1.5" fill="none"/>
+                        <path d="M12 14C12 14 14 8 16 8" stroke="#D5CEA3" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M14 13C14 13 15 7 17 7" stroke="#D5CEA3" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <line x1="11" y1="28" x2="21" y2="28" stroke="#D5CEA3" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <span class="font-display text-lg md:text-xl text-cream-300 font-semibold tracking-wide">AromaCafé</span>
+                </a>
+
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#inicio" class="nav-link text-sm text-cream-200/80 hover:text-cream-300 transition-colors">Inicio</a>
+                    <a href="#historia" class="nav-link text-sm text-cream-200/80 hover:text-cream-300 transition-colors">Nosotros</a>
+                    <a href="#menu" class="nav-link text-sm text-cream-200/80 hover:text-cream-300 transition-colors">Menú</a>
+                    <a href="#suscripciones" class="nav-link text-sm text-cream-200/80 hover:text-cream-300 transition-colors">Suscripciones</a>
+                    <a href="#contacto" class="nav-link text-sm text-cream-200/80 hover:text-cream-300 transition-colors">Contacto</a>
+                </div>
+
+                <div class="hidden lg:block">
+                    <a href="#pedido" class="btn-primary px-6 py-2.5 rounded-full text-sm font-medium">Ordenar ahora</a>
+                </div>
+
+                <button id="hamburgerBtn" class="lg:hidden flex flex-col gap-1.5 p-2 hamburger" aria-label="Abrir menú" aria-expanded="false">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1565b4308-a643-49ba-854b-c0c7c6635d21.png" alt="Café premium con arte latte" class="w-full h-full object-cover" loading="eager">
+            <div class="absolute inset-0 bg-coffee-900/70"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-coffee-900/50 via-transparent to-coffee-900"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-coffee-900/60 via-transparent to-coffee-900/60"></div>
+        </div>
+
+        <!-- Smoke Animation Container -->
+        <div id="smokeContainer" class="absolute inset-0 pointer-events-none"></div>
+
+        <!-- Floating Beans -->
+        <div id="heroBeans" class="absolute inset-0 pointer-events-none"></div>
+
+        <!-- Content -->
+        <div class="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto">
+            <!-- Indicators -->
+            <div class="flex items-center justify-center gap-3 mb-8 reveal-up">
+                <span class="indicator-dot active" id="dot1"></span>
+                <span class="text-xs tracking-[0.3em] uppercase text-cream-300/70">Café artesanal</span>
+                <span class="text-cream-300/30">•</span>
+                <span class="text-xs tracking-[0.3em] uppercase text-cream-300/70">Granos premium</span>
+                <span class="text-cream-300/30">•</span>
+                <span class="text-xs tracking-[0.3em] uppercase text-cream-300/70">Tostado especial</span>
+            </div>
+
+            <!-- Decorative Line -->
+            <div class="line-decoration-center mb-8 reveal-up"></div>
+
+            <!-- Main Title -->
+            <h1 class="hero-title font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gradient leading-tight mb-6 reveal-up">
+                Cada taza cuenta<br>una historia.
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="text-base sm:text-lg md:text-xl text-cream-200/70 max-w-2xl mx-auto mb-10 leading-relaxed reveal-up font-light">
+                Café artesanal premium preparado para quienes disfrutan los pequeños detalles.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal-up">
+                <a href="#menu" class="btn-primary px-8 py-3.5 rounded-full font-medium text-sm sm:text-base w-full sm:w-auto">
+                    Ver menú
+                </a>
+                <a href="#pedido" class="btn-outline px-8 py-3.5 rounded-full font-medium text-sm sm:text-base w-full sm:w-auto">
+                    Pedir ahora
+                </a>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+                <span class="text-xs tracking-[0.2em] uppercase text-cream-300/40">Descubre</span>
+                <div class="w-5 h-8 border border-cream-300/30 rounded-full flex items-start justify-center pt-1.5">
+                    <div class="w-1 h-2 bg-cream-300/60 rounded-full animate-bounce"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section id="historia" class="relative py-20 md:py-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <!-- Text Content -->
+                <div class="order-2 lg:order-1">
+                    <div class="reveal-left">
+                        <span class="text-xs tracking-[0.3em] uppercase text-gold-400 mb-4 block">Nuestra Historia</span>
+                        <div class="line-decoration mb-6"></div>
+                    </div>
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-gradient mb-6 reveal-left leading-tight">
+                        Pasión por el café desde el origen
+                    </h2>
+                    <p class="text-cream-200/70 leading-relaxed mb-6 reveal-left font-light">
+                        En AromaCafé, cada grano cuenta una historia de dedicación y excelencia. Seleccionamos cuidadosamente los mejores granos de las regiones caficultoras más prestigiosas del mundo, desde las montañas de Colombia hasta las tierras altas de Etiopía.
+                    </p>
+                    <p class="text-cream-200/60 leading-relaxed mb-10 reveal-left font-light">
+                        Nuestro proceso artesanal de tostado resalta las notas únicas de cada origen, creando perfiles de sabor que honran la tradición y abrazan la innovación. Cada taza es una experiencia sensorial diseñada para momentos extraordinarios.
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 reveal-left">
+                        <div class="text-center">
+                            <div class="font-display text-3xl md:text-4xl font-bold text-gradient stat-number" data-target="15">0</div>
+                            <div class="text-xs tracking-wider uppercase text-cream-200/50 mt-1">Años de experiencia</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-display text-3xl md:text-4xl font-bold text-gradient stat-number" data-target="30">0</div>
+                            <div class="text-xs tracking-wider uppercase text-cream-200/50 mt-1">Orígenes selectos</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-display text-3xl md:text-4xl font-bold text-gradient stat-number" data-target="50">0</div>
+                            <div class="text-xs tracking-wider uppercase text-cream-200/50 mt-1">Mil tazas servidas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image -->
+                <div class="order-1 lg:order-2 reveal-right">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gold-500/5 rounded-2xl blur-xl"></div>
+                        <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1b857cc99-0b54-4757-b281-fc3a168eb072.png" alt="Granos de café premium seleccionados" class="relative rounded-2xl w-full aspect-[4/5] object-cover shadow-2xl" loading="lazy">
+                        <div class="absolute -bottom-6 -left-6 glass-card rounded-xl p-4 sm:p-6 shadow-xl hidden sm:block">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-gold-500/20 flex items-center justify-center">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2">
+                                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-cream-300">Calidad Premium</div>
+                                    <div class="text-xs text-cream-200/50">Certificación SCA</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section id="menu" class="relative py-20 md:py-32 overflow-hidden">
+        <!-- Decorative Background -->
+        <div class="absolute inset-0 bg-gradient-to-b from-coffee-900 via-coffee-800/30 to-coffee-900"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="text-xs tracking-[0.3em] uppercase text-gold-400 mb-4 block reveal-up">Nuestro Menú</span>
+                <div class="line-decoration-center mb-6 reveal-up"></div>
+                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-gradient mb-4 reveal-up">
+                    Productos Destacados
+                </h2>
+                <p class="text-cream-200/60 max-w-lg mx-auto reveal-up font-light">
+                    Cada preparación es una obra maestra de sabor y técnica artesanal.
+                </p>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <!-- Product 1: Espresso -->
+                <div class="glass-card rounded-2xl overflow-hidden hover-lift group reveal-up">
+                    <div class="relative overflow-hidden aspect-[4/5]">
+                        <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1e6cb2e12-9055-4d3c-8530-90ed12fb7fec.png" alt="Espresso perfecto con crema dorada" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-coffee-900 via-transparent to-transparent"></div>
+                        <div class="absolute top-3 right-3 glass-card px-3 py-1 rounded-full">
+                            <span class="text-xs text-gold-400 font-medium">Clásico</span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-semibold text-cream-300 mb-2">Espresso</h3>
+                        <p class="text-sm text-cream-200/50 mb-4 leading-relaxed">Shot concentrado de café puro con crema dorada perfecta.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-gradient">$3.50</span>
+                            <button class="btn-primary w-10 h-10 rounded-full flex items-center justify-center text-coffee-900" aria-label="Agregar Espresso">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2: Latte Vainilla -->
+                <div class="glass-card rounded-2xl overflow-hidden hover-lift group reveal-up">
+                    <div class="relative overflow-hidden aspect-[4/5]">
+                        <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1f6a34390-ecfd-4e7b-861b-815690ccf4ea.png" alt="Latte vainilla con arte latte" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-coffee-900 via-transparent to-transparent"></div>
+                        <div class="absolute top-3 right-3 glass-card px-3 py-1 rounded-full">
+                            <span class="text-xs text-gold-400 font-medium">Popular</span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-semibold text-cream-300 mb-2">Latte Vainilla</h3>
+                        <p class="text-sm text-cream-200/50 mb-4 leading-relaxed">Espresso con leche vaporizada y esencia de vainilla bourbon.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-gradient">$5.00</span>
+                            <button class="btn-primary w-10 h-10 rounded-full flex items-center justify-center text-coffee-900" aria-label="Agregar Latte Vainilla">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3: Cold Brew -->
+                <div class="glass-card rounded-2xl overflow-hidden hover-lift group reveal-up">
+                    <div class="relative overflow-hidden aspect-[4/5]">
+                        <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1e9abd0d8-1dc5-4d00-bb07-0cb1a7f7494c.png" alt="Cold Brew refrescante con hielo" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-coffee-900 via-transparent to-transparent"></div>
+                        <div class="absolute top-3 right-3 glass-card px-3 py-1 rounded-full">
+                            <span class="text-xs text-gold-400 font-medium">Refrescante</span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-semibold text-cream-300 mb-2">Cold Brew</h3>
+                        <p class="text-sm text-cream-200/50 mb-4 leading-relaxed">Infusión fría de 18 horas con notas suaves y achocolatadas.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-gradient">$4.50</span>
+                            <button class="btn-primary w-10 h-10 rounded-full flex items-center justify-center text-coffee-900" aria-label="Agregar Cold Brew">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4: Mocha Premium -->
+                <div class="glass-card rounded-2xl overflow-hidden hover-lift group reveal-up">
+                    <div class="relative overflow-hidden aspect-[4/5]">
+                        <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1d65d8eb8-b15d-4322-8785-a68045e8eef0.png" alt="Mocha premium con crema y chocolate" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-coffee-900 via-transparent to-transparent"></div>
+                        <div class="absolute top-3 right-3 glass-card px-3 py-1 rounded-full">
+                            <span class="text-xs text-gold-400 font-medium">Premium</span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-display text-xl font-semibold text-cream-300 mb-2">Mocha Premium</h3>
+                        <p class="text-sm text-cream-200/50 mb-4 leading-relaxed">Espresso con chocolate belga, leche espumada y crema batida.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="font-display text-xl font-bold text-gradient">$5.50</span>
+                            <button class="btn-primary w-10 h-10 rounded-full flex items-center justify-center text-coffee-900" aria-label="Agregar Mocha Premium">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galeria" class="relative py-20 md:py-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="text-xs tracking-[0.3em] uppercase text-gold-400 mb-4 block reveal-up">Galería</span>
+                <div class="line-decoration-center mb-6 reveal-up"></div>
+                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-gradient mb-4 reveal-up">
+                    Nuestra Esencia
+                </h2>
+                <p class="text-cream-200/60 max-w-lg mx-auto reveal-up font-light">
+                    Momentos capturados en cada rincón de AromaCafé.
+                </p>
+            </div>
+
+            <!-- Masonry Gallery -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+                <div class="gallery-item col-span-2 row-span-2 reveal-up">
+                    <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1cc2cfeda-ae5d-4011-a43c-da5e818b68f9.png" alt="Interior elegante de la cafetería AromaCafé" class="w-full h-full object-cover aspect-square" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-up">
+                    <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1391d1b15-6942-475d-bbb2-95a1e7291850.png" alt="Barista preparando arte latte con destreza" class="w-full h-full object-cover aspect-[3/4]" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-up">
+                    <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/110898662-4072-4e74-9f84-4db08e58ccc1.png" alt="Equipo artesanal de café y granos seleccionados" class="w-full h-full object-cover aspect-[3/4]" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-up">
+                    <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1f6a34390-ecfd-4e7b-861b-815690ccf4ea.png" alt="Latte art perfecto en copa de cristal" class="w-full h-full object-cover aspect-[3/4]" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-up">
+                    <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/131ffe7e2-3741-4e82-9acf-89afb9441115.png" alt="Café humeante con luces cálidas de fondo" class="w-full h-full object-cover aspect-[3/4]" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription Section -->
+    <section id="suscripciones" class="relative py-20 md:py-32 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-coffee-900 via-coffee-800/20 to-coffee-900"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="text-xs tracking-[0.3em] uppercase text-gold-400 mb-4 block reveal-up">Suscripciones</span>
+                <div class="line-decoration-center mb-6 reveal-up"></div>
+                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-gradient mb-4 reveal-up">
+                    Recibe café premium cada mes
+                </h2>
+                <p class="text-cream-200/60 max-w-lg mx-auto reveal-up font-light">
+                    Planes diseñados para verdaderos amantes del café artesanal.
+                </p>
+            </div>
+
+            <!-- Subscription Cards -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+                <!-- Plan 1 -->
+                <div class="subscription-card glass-card rounded-2xl p-6 md:p-8 reveal-up">
+                    <div class="text-xs tracking-[0.3em] uppercase text-gold-400 mb-4">Básico</div>
+                    <div class="font-display text-4xl font-bold text-gradient mb-2">$24<span class="text-lg text-cream-200/50 font-normal">/mes</span></div>
+                    <p class="text-sm text-cream-200/50 mb-6">250g de café premium mensual</p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Envío gratuito
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Origen rotativo
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Notas de cata
+                        </li>
+                    </ul>
+                    <button class="btn-outline w-full py-3 rounded-full text-sm font-medium">Elegir plan</button>
+                </div>
+
+                <!-- Plan 2 (Featured) -->
+                <div class="subscription-card featured glass-card rounded-2xl p-6 md:p-8 relative reveal-up">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                        <span class="bg-gold-500/20 text-gold-400 text-xs font-medium px-4 py-1 rounded-full border border-gold-500/30">Más popular</span>
+                    </div>
+                    <div class="text-xs tracking-[0.3em] uppercase text-gold-400 mb-4">Premium</div>
+                    <div class="font-display text-4xl font-bold text-gradient mb-2">$42<span class="text-lg text-cream-200/50 font-normal">/mes</span></div>
+                    <p class="text-sm text-cream-200/50 mb-6">500g de café + accesorios exclusivos</p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Envío gratuito express
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Ediciones limitadas
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Descuento 15% en tienda
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Acceso VIP a eventos
+                        </li>
+                    </ul>
+                    <button class="btn-primary w-full py-3 rounded-full text-sm font-medium">Elegir plan</button>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="subscription-card glass-card rounded-2xl p-6 md:p-8 reveal-up sm:col-span-2 lg:col-span-1">
+                    <div class="text-xs tracking-[0.3em] uppercase text-gold-400 mb-4">Connoisseur</div>
+                    <div class="font-display text-4xl font-bold text-gradient mb-2">$68<span class="text-lg text-cream-200/50 font-normal">/mes</span></div>
+                    <p class="text-sm text-cream-200/50 mb-6">1kg + café exclusivo de micro-lote</p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Todo lo del plan Premium
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Micro-lotes exclusivos
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Descuento 25% en tienda
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/70">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D5CEA3" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Cata privada mensual
+                        </li>
+                    </ul>
+                    <button class="btn-outline w-full py-3 rounded-full text-sm font-medium">Elegir plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonios" class="relative py-20 md:py-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="text-xs tracking-[0.3em] uppercase text-gold-400 mb-4 block reveal-up">Testimonios</span>
+                <div class="line-decoration-center mb-6 reveal-up"></div>
+                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-gradient mb-4 reveal-up">
+                    Lo que dicen nuestros clientes
+                </h2>
+            </div>
+
+            <!-- Testimonials Grid -->
+            <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+                <!-- Testimonial 1 -->
+                <div class="glass-card rounded-2xl p-6 md:p-8 hover-lift reveal-up">
+                    <div class="flex items-center gap-1 mb-4 star-rating">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                    </div>
+                    <p class="text-cream-200/70 text-sm leading-relaxed mb-6 italic font-light">
+                        "El mejor café que he probado en mi vida. La suscripción Premium ha transformado mis mañanas. Cada origen es una experiencia nueva."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1bd45b6bb-7a95-47b1-b57a-c0e7eb46462d.png" alt="María García, cliente satisfecha" class="w-10 h-10 rounded-full object-cover" loading="lazy">
+                        <div>
+                            <div class="text-sm font-medium text-cream-300">María García</div>
+                            <div class="text-xs text-cream-200/40">Suscriptora Premium</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="glass-card rounded-2xl p-6 md:p-8 hover-lift reveal-up">
+                    <div class="flex items-center gap-1 mb-4 star-rating">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                    </div>
+                    <p class="text-cream-200/70 text-sm leading-relaxed mb-6 italic font-light">
+                        "El ambiente es increíble y el café, simplemente perfecto. Mi lugar favorito para trabajar y disfrutar un buen espresso."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/15f305378-7b6f-40aa-a0fa-d1df60cee354.png" alt="Carlos Mendoza, cliente habitual" class="w-10 h-10 rounded-full object-cover" loading="lazy">
+                        <div>
+                            <div class="text-sm font-medium text-cream-300">Carlos Mendoza</div>
+                            <div class="text-xs text-cream-200/40">Cliente habitual</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="glass-card rounded-2xl p-6 md:p-8 hover-lift reveal-up">
+                    <div class="flex items-center gap-1 mb-4 star-rating">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                    </div>
+                    <p class="text-cream-200/70 text-sm leading-relaxed mb-6 italic font-light">
+                        "El Cold Brew es adictivo. La calidad y atención al detalle en cada preparación hacen de AromaCafé una experiencia única."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/1eb95766e-9d4a-438f-9c38-d98385baf979.png" alt="Laura Fernández, amante del café" class="w-10 h-10 rounded-full object-cover" loading="lazy">
+                        <div>
+                            <div class="text-sm font-medium text-cream-300">Laura Fernández</div>
+                            <div class="text-xs text-cream-200/40">Amante del café</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section id="pedido" class="relative py-20 md:py-32 overflow-hidden">
+        <!-- Background -->
+        <div class="absolute inset-0">
+            <img src="https://image.qwenlm.ai/public_source/bbef6326-2fdd-415b-8b98-61adb104f0c7/131ffe7e2-3741-4e82-9acf-89afb9441115.png" alt="Café humeante con ambiente cálido" class="w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-0 bg-coffee-900/80"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-coffee-900/50 via-transparent to-coffee-900"></div>
+        </div>
+
+        <!-- Floating Particles -->
+        <div id="ctaParticles" class="absolute inset-0 pointer-events-none"></div>
+
+        <!-- Content -->
+        <div class="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto">
+            <div class="reveal-up">
+                <span class="text-xs tracking-[0.3em] uppercase text-gold-400 mb-4 block">¿Listo para probar?</span>
+                <div class="line-decoration-center mb-8"></div>
+            </div>
+            <h2 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gradient mb-6 leading-tight reveal-up">
+                Tu próxima taza favorita<br>te espera.
+            </h2>
+            <p class="text-cream-200/60 text-base sm:text-lg mb-10 max-w-xl mx-auto reveal-up font-light">
+                Descubre por qué miles de amantes del café eligen AromaCafé como su destino favorito.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal-up">
+                <a href="#" class="btn-primary px-10 py-4 rounded-full font-medium text-base sm:text-lg w-full sm:w-auto">
+                    Ordenar ahora
+                </a>
+                <a href="#contacto" class="btn-outline px-10 py-4 rounded-full font-medium text-base sm:text-lg w-full sm:w-auto">
+                    Conocer más
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto" class="relative pt-16 md:pt-20 pb-8 overflow-hidden">
+        <div class="absolute inset-0 bg-coffee-800/30"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-16">
+                <!-- Brand -->
+                <div class="sm:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                            <circle cx="16" cy="18" r="10" stroke="#D5CEA3" stroke-width="1.5" fill="none"/>
+                            <path d="M26 16C28 16 29 17 29 19C29 21 28 22 26 22" stroke="#D5CEA3" stroke-width="1.5" fill="none"/>
+                            <path d="M12 14C12 14 14 8 16 8" stroke="#D5CEA3" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                            <path d="M14 13C14 13 15 7 17 7" stroke="#D5CEA3" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                            <line x1="11" y1="28" x2="21" y2="28" stroke="#D5CEA3" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <span class="font-display text-lg text-cream-300 font-semibold">AromaCafé</span>
+                    </div>
+                    <p class="text-sm text-cream-200/50 leading-relaxed mb-6">
+                        Café artesanal premium. Cada taza es una experiencia única de sabor y pasión.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <a href="#" class="w-9 h-9 rounded-full border border-cream-300/15 flex items-center justify-center text-cream-200/50 hover:text-cream-300 hover:border-cream-300/30 transition-all" aria-label="Instagram">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full border border-cream-300/15 flex items-center justify-center text-cream-200/50 hover:text-cream-300 hover:border-cream-300/30 transition-all" aria-label="Facebook">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full border border-cream-300/15 flex items-center justify-center text-cream-200/50 hover:text-cream-300 hover:border-cream-300/30 transition-all" aria-label="Twitter">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full border border-cream-300/15 flex items-center justify-center text-cream-200/50 hover:text-cream-300 hover:border-cream-300/30 transition-all" aria-label="TikTok">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-display text-sm font-semibold text-cream-300 mb-4 tracking-wider uppercase">Navegación</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#inicio" class="text-sm text-cream-200/50 hover:text-cream-300 transition-colors">Inicio</a></li>
+                        <li><a href="#historia" class="text-sm text-cream-200/50 hover:text-cream-300 transition-colors">Nuestra Historia</a></li>
+                        <li><a href="#menu" class="text-sm text-cream-200/50 hover:text-cream-300 transition-colors">Menú</a></li>
+                        <li><a href="#suscripciones" class="text-sm text-cream-200/50 hover:text-cream-300 transition-colors">Suscripciones</a></li>
+                        <li><a href="#galeria" class="text-sm text-cream-200/50 hover:text-cream-300 transition-colors">Galería</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="font-display text-sm font-semibold text-cream-300 mb-4 tracking-wider uppercase">Contacto</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3 text-sm text-cream-200/50">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-0.5 flex-shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            Av. Reforma 234, CDMX
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/50">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="flex-shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            +52 55 1234 5678
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-cream-200/50">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="flex-shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            hola@aromacafe.mx
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Hours & Newsletter -->
+                <div>
+                    <h4 class="font-display text-sm font-semibold text-cream-300 mb-4 tracking-wider uppercase">Horarios</h4>
+                    <ul class="space-y-2 mb-8">
+                        <li class="flex justify-between text-sm text-cream-200/50"><span>Lun - Vie</span><span>7:00 - 21:00</span></li>
+                        <li class="flex justify-between text-sm text-cream-200/50"><span>Sábado</span><span>8:00 - 22:00</span></li>
+                        <li class="flex justify-between text-sm text-cream-200/50"><span>Domingo</span><span>9:00 - 19:00</span></li>
+                    </ul>
+
+                    <h4 class="font-display text-sm font-semibold text-cream-300 mb-3 tracking-wider uppercase">Newsletter</h4>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Tu email" class="newsletter-input flex-1 px-4 py-2.5 rounded-full text-sm" aria-label="Email para newsletter">
+                        <button class="btn-primary px-4 py-2.5 rounded-full text-sm flex-shrink-0" aria-label="Suscribirse">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="border-t border-cream-300/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-cream-200/30">© 2026 AromaCafé. Todos los derechos reservados.</p>
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-xs text-cream-200/30 hover:text-cream-200/60 transition-colors">Privacidad</a>
+                    <a href="#" class="text-xs text-cream-200/30 hover:text-cream-200/60 transition-colors">Términos</a>
+                    <a href="#" class="text-xs text-cream-200/30 hover:text-cream-200/60 transition-colors">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // LOADER
+        // ==========================================
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            gsap.to(loader, {
+                opacity: 0,
+                duration: 0.6,
+                delay: 0.8,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    loader.style.display = 'none';
+                    initAnimations();
+                }
+            });
+        });
+
+        // ==========================================
+        // CURSOR GLOW (Desktop)
+        // ==========================================
+        const cursorGlow = document.getElementById('cursorGlow');
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                cursorGlow.style.left = e.clientX + 'px';
+                cursorGlow.style.top = e.clientY + 'px';
+                cursorGlow.classList.remove('hidden-cursor');
+            });
+
+            document.addEventListener('mouseleave', () => {
+                cursorGlow.classList.add('hidden-cursor');
+            });
+        }
+
+        // ==========================================
+        // NAVBAR SCROLL EFFECT
+        // ==========================================
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 80) {
+                navbar.classList.remove('nav-transparent');
+                navbar.classList.add('glass-nav');
+            } else {
+                navbar.classList.add('nav-transparent');
+                navbar.classList.remove('glass-nav');
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // ==========================================
+        // MOBILE MENU
+        // ==========================================
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        hamburgerBtn.addEventListener('click', () => {
+            hamburgerBtn.classList.add('active');
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMobileMenu.addEventListener('click', closeMobileMenuFn);
+
+        function closeMobileMenuFn() {
+            hamburgerBtn.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                closeMobileMenuFn();
+            });
+        });
+
+        // ==========================================
+        // COFFEE BEAN PARTICLES (Hero)
+        // ==========================================
+        const heroBeansContainer = document.getElementById('heroBeans');
+        for (let i = 0; i < 15; i++) {
+            const bean = document.createElement('div');
+            bean.className = 'coffee-bean';
+            bean.style.left = Math.random() * 100 + '%';
+            bean.style.top = Math.random() * 100 + '%';
+            bean.style.animationDuration = (8 + Math.random() * 12) + 's';
+            bean.style.animationDelay = Math.random() * 5 + 's';
+            bean.style.width = (6 + Math.random() * 6) + 'px';
+            bean.style.height = (10 + Math.random() * 8) + 'px';
+            heroBeansContainer.appendChild(bean);
+        }
+
+        // ==========================================
+        // SMOKE ANIMATION (Hero)
+        // ==========================================
+        const smokeContainer = document.getElementById('smokeContainer');
+        const smokeX = window.innerWidth > 768 ? '50%' : '30%';
+        const smokeY = window.innerWidth > 768 ? '55%' : '45%';
+
+        function createSmokeParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'smoke-particle';
+            particle.style.left = smokeX;
+            particle.style.top = smokeY;
+            particle.style.animationDuration = (3 + Math.random() * 4) + 's';
+            particle.style.width = (3 + Math.random() * 4) + 'px';
+            particle.style.height = particle.style.width;
+            smokeContainer.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 7000);
+        }
+
+        // Reduced frequency on mobile
+        const smokeInterval = window.innerWidth <= 768 ? 400 : 200;
+        const smokeIntervalId = setInterval(createSmokeParticle, smokeInterval);
+
+        // Stop smoke after page is fully loaded and user has scrolled past hero
+        let smokeStopped = false;
+        window.addEventListener('scroll', () => {
+            if (!smokeStopped && window.pageYOffset > window.innerHeight) {
+                clearInterval(smokeIntervalId);
+                smokeStopped = true;
+                smokeContainer.innerHTML = '';
+            }
+        });
+
+        // ==========================================
+        // CTA PARTICLES
+        // ==========================================
+        const ctaParticlesContainer = document.getElementById('ctaParticles');
+        for (let i = 0; i < 20; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'smoke-particle';
+            dot.style.left = Math.random() * 100 + '%';
+            dot.style.top = Math.random() * 100 + '%';
+            dot.style.animationDuration = (4 + Math.random() * 6) + 's';
+            dot.style.animationDelay = Math.random() * 3 + 's';
+            dot.style.background = `rgba(213, 206, 163, ${0.05 + Math.random() * 0.1})`;
+            dot.style.width = (2 + Math.random() * 4) + 'px';
+            dot.style.height = dot.style.width;
+            ctaParticlesContainer.appendChild(dot);
+        }
+
+        // ==========================================
+        // GSAP SCROLL ANIMATIONS
+        // ==========================================
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Reveal Up Animations
+            const revealUps = document.querySelectorAll('.reveal-up');
+            revealUps.forEach((el, index) => {
+                gsap.fromTo(el, {
+                    opacity: 0,
+                    y: 40
+                }, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        end: 'top 60%',
+                        toggleActions: 'play none none none'
+                    },
+                    delay: index % 4 * 0.1
+                });
+            });
+
+            // Reveal Left Animations
+            const revealLefts = document.querySelectorAll('.reveal-left');
+            revealLefts.forEach((el) => {
+                gsap.fromTo(el, {
+                    opacity: 0,
+                    x: -40
+                }, {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+
+            // Reveal Right Animations
+            const revealRights = document.querySelectorAll('.reveal-right');
+            revealRights.forEach((el) => {
+                gsap.fromTo(el, {
+                    opacity: 0,
+                    x: 40
+                }, {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+
+            // Parallax for hero background
+            gsap.to('#inicio img', {
+                yPercent: 20,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#inicio',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            // Animated counters
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                gsap.to(stat, {
+                    innerText: target,
+                    duration: 2,
+                    ease: 'power2.out',
+                    snap: { innerText: 1 },
+                    scrollTrigger: {
+                        trigger: stat,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    },
+                    onUpdate: function() {
+                        stat.textContent = Math.round(parseFloat(stat.textContent));
+                    }
+                });
+            });
+
+            // Gallery items stagger
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            gsap.fromTo(galleryItems, {
+                opacity: 0,
+                y: 30,
+                scale: 0.95
+            }, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#galeria',
+                    start: 'top 70%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Subscription cards stagger
+            const subCards = document.querySelectorAll('.subscription-card');
+            gsap.fromTo(subCards, {
+                opacity: 0,
+                y: 40
+            }, {
+                opacity: 1,
+                y: 0,
+                duration: 0.7,
+                stagger: 0.15,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#suscripciones',
+                    start: 'top 70%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Testimonial cards stagger
+            const testimonialCards = document.querySelectorAll('#testimonios .glass-card');
+            gsap.fromTo(testimonialCards, {
+                opacity: 0,
+                y: 30
+            }, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.12,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#testimonios',
+                    start: 'top 70%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Product cards stagger
+            const productCards = document.querySelectorAll('#menu .glass-card');
+            gsap.fromTo(productCards, {
+                opacity: 0,
+                y: 40
+            }, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.12,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#menu',
+                    start: 'top 70%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        }
+
+        // ==========================================
+        // SMOOTH SCROLL for anchor links
+        // ==========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ==========================================
+        // ACTIVE NAV LINK HIGHLIGHT
+        // ==========================================
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 200;
+                if (window.pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-cream-300');
+                link.classList.add('text-cream-200/80');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('text-cream-300');
+                    link.classList.remove('text-cream-200/80');
+                }
+            });
+        });
+
+        // ==========================================
+        // INDICATOR DOTS ANIMATION
+        // ==========================================
+        const dots = document.querySelectorAll('.indicator-dot');
+        let activeDot = 0;
+        setInterval(() => {
+            dots[activeDot].classList.remove('active');
+            activeDot = (activeDot + 1) % dots.length;
+            dots[activeDot].classList.add('active');
+        }, 3000);
+
+        // ==========================================
+        // PRODUCT BUTTON INTERACTIONS
+        // ==========================================
+        document.querySelectorAll('#menu .btn-primary').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const original = this.innerHTML;
+                this.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+                this.style.background = 'linear-gradient(135deg, #D5CEA3 0%, #C5BC8B 100%)';
+
+                setTimeout(() => {
+                    this.innerHTML = original;
+                }, 1500);
+            });
+        });
+
+        // ==========================================
+        // PERFORMANCE: Reduce animations on low-end devices
+        // ==========================================
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            gsap.globalTimeline.timeScale(0);
+            document.querySelectorAll('.coffee-bean, .smoke-particle').forEach(el => {
+                el.style.animation = 'none';
+            });
+        }
+    </script>
+</body>
+</html>
