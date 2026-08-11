@@ -1868,3 +1868,68 @@ section > .container,
     min-height: 48px;
   }
 }
+/* ============================================================
+   HERO MOCKUP IMAGE ANIMATION
+   ============================================================ */
+
+.hero__mockup {
+    /* Ajusta el fondo para que la imagen flote sobre él */
+    background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible; /* permite que la sombra se vea fuera */
+}
+
+.hero__mockup-image {
+    max-width: 80%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-lg);
+    /* Animación de flotación sutil */
+    animation: mockup-float 6s ease-in-out infinite;
+    /* Sombra suave para dar profundidad */
+    filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.15));
+    transition: transform 0.3s ease, filter 0.3s ease;
+    will-change: transform;
+}
+
+/* Efecto hover opcional: leve acercamiento y brillo */
+.hero__mockup-image:hover {
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 60px rgba(139, 92, 246, 0.25));
+}
+
+/* Keyframes de flotación vertical + rotación mínima */
+@keyframes mockup-float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-8px) rotate(0.3deg);
+    }
+    50% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    75% {
+        transform: translateY(4px) rotate(-0.2deg);
+    }
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+/* Para pantallas pequeñas reducimos la animación */
+@media (max-width: 767px) {
+    .hero__mockup-image {
+        max-width: 90%;
+        animation-duration: 8s; /* más lento en móvil */
+    }
+}
+
+/* Respeto por preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .hero__mockup-image {
+        animation: none;
+    }
+}
