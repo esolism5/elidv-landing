@@ -1475,6 +1475,292 @@
       to{background-position-x:-200%}
     }
 
+
+    /* =========================================================
+       ANIMATION PERFORMANCE PASS
+       Solo mejora movimiento/fluidez. No modifica estructura,
+       tamaños, posiciones, contenido ni responsive.
+       ========================================================= */
+
+    /* Elementos que realmente se animan: promueve la composición
+       para evitar repintados innecesarios y pequeños tirones. */
+    .hero-card-art,
+    .hero-floating,
+    .security-illustration,
+    .product-card,
+    .product-media,
+    .benefit-card,
+    .security-item,
+    .card-modal-dialog,
+    .card-modal-visual > img,
+    .acc-icon,
+    .acc-chevron svg,
+    .footer-socials img,
+    .reveal{
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+    }
+
+    .hero-card-art,
+    .hero-floating,
+    .security-illustration{
+      will-change:transform;
+    }
+
+    /* Entrada al hacer scroll: misma lógica visual, movimiento más suave. */
+    .reveal{
+      transform:translate3d(0,22px,0);
+      transition:
+        opacity .72s cubic-bezier(.22,.8,.22,1),
+        transform .72s cubic-bezier(.22,.8,.22,1);
+    }
+    .reveal.is-visible{
+      opacity:1;
+      transform:translate3d(0,0,0);
+    }
+
+    /* Tarjeta principal del hero. */
+    .hero-card-art{
+      animation:cardFloatSmooth 6.2s cubic-bezier(.45,.05,.55,.95) infinite;
+    }
+    @keyframes cardFloatSmooth{
+      0%,100%{
+        transform:translate3d(0,0,0) rotate(-.35deg);
+      }
+      25%{
+        transform:translate3d(0,-4px,0) rotate(-.08deg);
+      }
+      50%{
+        transform:translate3d(0,-9px,0) rotate(.24deg);
+      }
+      75%{
+        transform:translate3d(0,-4px,0) rotate(.05deg);
+      }
+    }
+
+    /* Tarjeta flotante blanca del hero. */
+    .hero-floating{
+      animation:softPulseSmooth 5.8s cubic-bezier(.45,.05,.55,.95) infinite;
+    }
+    @keyframes softPulseSmooth{
+      0%,100%{transform:translate3d(0,0,0)}
+      50%{transform:translate3d(0,-5px,0)}
+    }
+
+    /* Ilustración de seguridad. */
+    .security-illustration{
+      animation:illustrationFloatSmooth 7s cubic-bezier(.45,.05,.55,.95) infinite;
+    }
+    @keyframes illustrationFloatSmooth{
+      0%,100%{transform:translate3d(0,0,0)}
+      50%{transform:translate3d(0,-8px,0)}
+    }
+
+    /* Botones: conserva el mismo desplazamiento, usando transform acelerado. */
+    .btn{
+      transition:
+        transform .25s var(--ease),
+        filter .25s ease,
+        box-shadow .25s var(--ease),
+        background-color .25s ease,
+        color .25s ease;
+    }
+    .btn-primary:hover{
+      transform:translate3d(0,-2px,0);
+    }
+    .btn-primary:active{
+      transform:translate3d(-2px,2px,0);
+    }
+
+    /* Cards de beneficios. */
+    .benefit-card{
+      transition:
+        transform .3s cubic-bezier(.22,.8,.22,1),
+        box-shadow .3s cubic-bezier(.22,.8,.22,1);
+    }
+    .benefit-card:hover{
+      transform:translate3d(0,-5px,0);
+    }
+
+    /* Cards de seguridad. */
+    .security-item{
+      transition:
+        transform .3s cubic-bezier(.22,.8,.22,1),
+        filter .3s ease;
+    }
+    .security-item:hover{
+      transform:translate3d(7px,0,0);
+    }
+
+    /* Formulario por etapas. */
+    .form-panel{
+      transform:translate3d(34px,0,0);
+      transition:
+        opacity .36s cubic-bezier(.22,.8,.22,1),
+        transform .36s cubic-bezier(.22,.8,.22,1);
+    }
+    .form-panel.from-left{
+      transform:translate3d(-34px,0,0);
+    }
+    .form-panel.is-active{
+      transform:translate3d(0,0,0);
+    }
+
+    .step-bullet{
+      transition:
+        transform .35s cubic-bezier(.22,.8,.22,1),
+        background-color .35s ease,
+        color .35s ease;
+    }
+    .step.is-active .step-bullet,
+    .step.is-done .step-bullet{
+      transform:translate3d(0,0,0) scale(1.03);
+    }
+
+    /* Tarjetas de "Encuentra tu tarjeta". */
+    .product-card{
+      transition:
+        transform .32s cubic-bezier(.22,.8,.22,1),
+        box-shadow .32s ease;
+    }
+    .product-card:hover{
+      transform:translate3d(0,-5px,0);
+    }
+    .product-media{
+      transition:transform .5s cubic-bezier(.22,.8,.22,1);
+      transform:translate3d(0,0,0) scale(1);
+    }
+    .product-card:hover .product-media{
+      transform:translate3d(0,0,0) scale(1.02);
+    }
+
+    /* FAQ. */
+    .acc{
+      transition:background-color .28s ease;
+    }
+    .acc p{
+      transition:
+        max-height .34s cubic-bezier(.22,.8,.22,1),
+        opacity .26s ease;
+    }
+    .acc-chevron svg{
+      transition:transform .28s cubic-bezier(.22,.8,.22,1);
+    }
+    .acc.open .acc-icon{
+      animation:iconNudgeSmooth .48s cubic-bezier(.22,.8,.22,1);
+    }
+    @keyframes iconNudgeSmooth{
+      0%,100%{transform:translate3d(0,-50%,0) scale(1)}
+      50%{transform:translate3d(0,-50%,0) scale(1.08)}
+    }
+
+    /* Menú móvil. */
+    .mobile-nav.open{
+      animation:menuDropSmooth .26s cubic-bezier(.22,.8,.22,1);
+    }
+    @keyframes menuDropSmooth{
+      from{
+        opacity:0;
+        transform:translate3d(0,-8px,0);
+      }
+      to{
+        opacity:1;
+        transform:translate3d(0,0,0);
+      }
+    }
+
+    /* Footer / redes sociales. */
+    .footer-socials img{
+      transition:transform .25s cubic-bezier(.22,.8,.22,1);
+    }
+    .footer-socials a:hover img{
+      transform:translate3d(0,-3px,0);
+    }
+
+    /* Modal de tarjetas. */
+    .card-modal{
+      transition:
+        opacity .25s ease,
+        visibility .25s ease;
+    }
+    .card-modal-dialog{
+      transform:translate3d(0,18px,0) scale(.985);
+      transition:transform .32s cubic-bezier(.22,.8,.22,1);
+      will-change:transform;
+    }
+    .card-modal.is-open .card-modal-dialog{
+      transform:translate3d(0,0,0) scale(1);
+    }
+    .card-modal-visual > img{
+      transition:opacity .2s ease;
+    }
+
+    /* Shimmer del modal: usa transform en vez de animar background-position,
+       reduciendo trabajo de pintura durante la carga. */
+    .card-modal-visual{
+      overflow:hidden;
+    }
+    .card-modal-visual.is-loading{
+      animation:none;
+    }
+    .card-modal-visual.is-loading::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      background:linear-gradient(
+        110deg,
+        transparent 20%,
+        rgba(255,255,255,.62) 42%,
+        transparent 64%
+      );
+      transform:translate3d(-120%,0,0);
+      animation:modalShimmerTransform 1.15s linear infinite;
+      will-change:transform;
+    }
+    .card-modal-visual > img,
+    .card-modal-badge{
+      position:relative;
+      z-index:1;
+    }
+    @keyframes modalShimmerTransform{
+      to{transform:translate3d(120%,0,0)}
+    }
+
+    /* Mobile: conserva exactamente su layout actual y solo cambia
+       el motor de movimiento de la tarjeta. */
+    @media (max-width:900px){
+      .hero-card-art{
+        animation:cardFloatMobileSmooth 6.2s cubic-bezier(.45,.05,.55,.95) infinite !important;
+      }
+      @keyframes cardFloatMobileSmooth{
+        0%,100%{
+          transform:translate3d(0,0,0) rotate(-.20deg);
+        }
+        50%{
+          transform:translate3d(0,-5px,0) rotate(.14deg);
+        }
+      }
+
+      /* En móvil no hay hover real; evita trabajo de composición innecesario. */
+      .product-card:hover,
+      .benefit-card:hover,
+      .security-item:hover{
+        transform:none;
+      }
+      .product-card:hover .product-media{
+        transform:translate3d(0,0,0) scale(1);
+      }
+
+      .card-modal-dialog{
+        transform:translate3d(0,28px,0) scale(.99);
+      }
+      .card-modal.is-open .card-modal-dialog{
+        transform:translate3d(0,0,0) scale(1);
+      }
+    }
+
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
       .reveal{opacity:1;transform:none}
