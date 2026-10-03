@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://elidev.site/sitemap.xml
