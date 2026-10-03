@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ============================================================
+    SEO META TAGS
+    ============================================================ -->
+    <title>ELIDEV | Diseño Web, E-commerce y Soluciones Digitales</title>
+    <meta name="description" content="Desarrollamos sitios web, tiendas online y soluciones digitales personalizadas para empresas y negocios. Diseño, desarrollo, e-commerce y mantenimiento web.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://elidev.site/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:title" content="ELIDEV | Diseño Web, E-commerce y Soluciones Digitales">
+    <meta property="og:description" content="Desarrollamos sitios web, tiendas online y soluciones digitales personalizadas para empresas y negocios. Diseño, desarrollo, e-commerce y mantenimiento web.">
+    <meta property="og:url" content="https://elidev.site/">
+    <meta property="og:site_name" content="ELIDEV">
+    <meta property="og:image" content="https://res.cloudinary.com/dvferf0h6/image/upload/v1778607104/elidevlogo_mcn1xg.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ELIDEV - Soluciones digitales para negocios">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ELIDEV | Diseño Web, E-commerce y Soluciones Digitales">
+    <meta name="twitter:description" content="Desarrollamos sitios web, tiendas online y soluciones digitales personalizadas para empresas y negocios. Diseño, desarrollo, e-commerce y mantenimiento web.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dvferf0h6/image/upload/v1778607104/elidevlogo_mcn1xg.png">
+
+    <!-- Favicon (usando el mismo logo como favicon) -->
+    <link rel="icon" href="https://res.cloudinary.com/dvferf0h6/image/upload/v1778607104/elidevlogo_mcn1xg.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dvferf0h6/image/upload/v1778607104/elidevlogo_mcn1xg.png">
+
+    <!-- External CSS placeholder -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- ============================================================
+    Minimal base styles for structural integrity only
+    ============================================================ -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        ul,
+        ol {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            font: inherit;
+            border: none;
+            background: none;
+        }
+
+        /* Nav mobile toggle — structural only */
+        .nav__menu {
+            display: none;
+        }
+
+        .nav__menu.nav__menu--open {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav__toggle {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .nav__menu {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .nav__toggle {
+                display: none;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Logo image sizing */
+        .nav__logo img,
+        .footer__logo img {
+            height: 28px;
+            width: auto;
+        }
+
+        @media (min-width: 768px) {
+            .nav__logo img {
+                height: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Icon Sprite (hidden) -->
+    <svg aria-hidden="true" style="display: none;">
+        <defs>
+            <g id="icon-web" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </g>
+            <g id="icon-ecommerce" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </g>
+            <g id="icon-development" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+            </g>
+            <g id="icon-maintenance" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.77 3.77z"/>
+            </g>
+            <g id="icon-design-dev" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                <path d="M2 2l7.586 7.586"/>
+                <circle cx="11" cy="11" r="2"/>
+            </g>
+            <g id="icon-landing" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+            </g>
+            <g id="icon-ecommerce-service" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 0 1-8 0"/>
+            </g>
+            <g id="icon-personalizado" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+            </g>
+            <g id="icon-integraciones" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </g>
+            <g id="icon-automatizaciones" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </g>
+            <g id="icon-seo" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </g>
+            <g id="icon-optimizacion" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                <polyline points="17 6 23 6 23 12"/>
+            </g>
+            <g id="icon-analitica" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <line x1="18" y1="20" x2="18" y2="10"/>
+                <line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="14"/>
+            </g>
+            <g id="icon-mantenimiento-service" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <polyline points="9 12 11 14 15 10"/>
+            </g>
+        </defs>
+    </svg>
+
+    <!-- ============================================================
+    HEADER / NAVBAR
+    ============================================================ -->
+    <header class="header" id="header">
+        <nav class="nav" aria-label="Navegación principal">
+            <div class="nav__container">
+                <!-- Logo -->
+                <a href="#inicio" class="nav__logo" aria-label="ELIDEV — Ir al inicio">
+                    <img src="https://res.cloudinary.com/dvferf0h6/image/upload/v1778607104/elidevlogo_mcn1xg.png" alt="ELIDEV" width="120" height="32">
+                </a>
+
+                <!-- Mobile menu toggle button -->
+                <button
+                class="nav__toggle"
+                id="nav-toggle"
+                aria-label="Abrir menú de navegación"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+                type="button"
+                >
+                <span class="nav__toggle-icon" aria-hidden="true">☰</span>
+            </button>
+
+            <!-- Navigation links -->
+            <div class="nav__menu" id="nav-menu" role="navigation">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#inicio" class="nav__link">Inicio</a></li>
+                    <li class="nav__item"><a href="#soluciones" class="nav__link">Soluciones</a></li>
+                    <li class="nav__item"><a href="#servicios" class="nav__link">Servicios</a></li>
+                    <li class="nav__item"><a href="#portafolio" class="nav__link">Portafolio</a></li>
+                    <li class="nav__item"><a href="#planes" class="nav__link">Planes</a></li>
+                    <li class="nav__item"><a href="#mantenimiento" class="nav__link">Mantenimiento</a></li>
+                    <li class="nav__item"><a href="#faq" class="nav__link">FAQ</a></li>
+                </ul>
+                <a
+                href="https://wa.me/50240660914?text=Hola,%20quiero%20información%20sobre%20sus%20servicios%20web"
+                class="nav__cta"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Solicitar cotización por WhatsApp"
+                >
+                Solicitar cotización
+            </a>
+        </div>
+    </div>
+</nav>
+</header>
+
+<!-- ============================================================
+MAIN CONTENT
+============================================================ -->
+<main>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="hero" aria-labelledby="hero-heading">
+        <div class="hero__container">
+            <div class="hero__content">
+                <span class="hero__badge">Soluciones digitales</span>
+                <h1 class="hero__title" id="hero-heading">Tu negocio. En internet. <strong>A otro nivel.</strong></h1>
+                <p class="hero__subtitle">Creamos, desarrollamos y mantenemos sitios web, tiendas online y soluciones digitales para empresas que quieren crecer.</p>
+                <div class="hero__actions">
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20iniciar%20un%20proyecto%20web" class="hero__cta hero__cta--primary" target="_blank" rel="noopener noreferrer">Iniciar proyecto</a>
+                    <a href="#portafolio" class="hero__cta hero__cta--secondary">Ver nuestros trabajos</a>
+                </div>
+                <div class="hero__tags" aria-label="Áreas de especialidad">
+                    <span class="hero__tag">Web</span>
+                    <span class="hero__tag">E-commerce</span>
+                    <span class="hero__tag">Development</span>
+                    <span class="hero__tag">Maintenance</span>
+                </div>
+            </div>
+            <div class="hero__illustration" aria-hidden="true">
+    <div class="hero__mockup">
+        <img src="https://res.cloudinary.com/dvferf0h6/image/upload/v1786470384/ChatGPT_Image_11_ago_2026_11_44_28_xzoutg.png" alt="ELIDEV - Soluciones digitales para negocios" class="hero__mockup-image">
+    </div>
+</div>
+        </div>
+    </section>
+
+    <!-- SOLUCIONES -->
+    <section id="soluciones" class="solutions" aria-labelledby="solutions-heading">
+        <div class="solutions__container">
+            <header class="solutions__header">
+                <h2 class="solutions__title" id="solutions-heading">¿Qué necesita tu negocio?</h2>
+                <p class="solutions__subtitle">Soluciones digitales pensadas para cada etapa y objetivo de tu empresa.</p>
+            </header>
+            <div class="solutions__grid">
+                <!-- Sitios Web -->
+                <article class="solution-card" id="solucion-sitios-web">
+                    <div class="solution-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <use href="#icon-web"/>
+                        </svg>
+                    </div>
+                    <h3 class="solution-card__title">Una presencia digital profesional</h3>
+                    <p class="solution-card__description">Sitios web rápidos, responsive y diseñados para representar profesionalmente tu negocio.</p>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20crear%20mi%20sitio%20web" class="solution-card__cta" target="_blank" rel="noopener noreferrer">Crear mi sitio</a>
+                </article>
+                <!-- E-commerce -->
+                <article class="solution-card" id="solucion-ecommerce">
+                    <div class="solution-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <use href="#icon-ecommerce"/>
+                        </svg>
+                    </div>
+                    <h3 class="solution-card__title">Convierte visitas en ventas</h3>
+                    <p class="solution-card__description">Tiendas online preparadas para mostrar productos, gestionar pedidos y vender por internet.</p>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20crear%20mi%20tienda%20online" class="solution-card__cta" target="_blank" rel="noopener noreferrer">Crear mi tienda</a>
+                </article>
+                <!-- Desarrollo Personalizado -->
+                <article class="solution-card" id="solucion-desarrollo">
+                    <div class="solution-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <use href="#icon-development"/>
+                        </svg>
+                    </div>
+                    <h3 class="solution-card__title">Construimos lo que necesitas</h3>
+                    <p class="solution-card__description">Desarrollamos funcionalidades, sistemas, integraciones y soluciones digitales adaptadas a tu operación.</p>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20hablar%20sobre%20mi%20proyecto%20personalizado" class="solution-card__cta" target="_blank" rel="noopener noreferrer">Hablar sobre mi proyecto</a>
+                </article>
+                <!-- Mantenimiento -->
+                <article class="solution-card" id="solucion-mantenimiento">
+                    <div class="solution-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <use href="#icon-maintenance"/>
+                        </svg>
+                    </div>
+                    <h3 class="solution-card__title">Tu sitio siempre funcionando</h3>
+                    <p class="solution-card__description">Actualizaciones, seguridad, backups, optimización y soporte continuo para mantener tu plataforma en buenas condiciones.</p>
+                    <a href="#mantenimiento" class="solution-card__cta">Ver mantenimiento</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios" class="services" aria-labelledby="services-heading">
+        <div class="services__container">
+            <header class="services__header">
+                <h2 class="services__title" id="services-heading">Servicios</h2>
+                <p class="services__subtitle">Todo lo que tu negocio necesita para tener una presencia digital sólida y profesional.</p>
+            </header>
+            <div class="services__grid">
+                <div class="service-card" id="servicio-diseno-desarrollo">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-design-dev"/></svg>
+                    </div>
+                    <h3 class="service-card__title">Diseño y desarrollo web</h3>
+                    <p class="service-card__description">Creamos sitios web modernos, funcionales y alineados con la identidad de tu marca.</p>
+                </div>
+                <div class="service-card" id="servicio-landing-pages">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-landing"/></svg>
+                    </div>
+                    <h3 class="service-card__title">Landing Pages</h3>
+                    <p class="service-card__description">Páginas de aterrizaje optimizadas para convertir visitantes en clientes potenciales.</p>
+                </div>
+                <div class="service-card" id="servicio-ecommerce">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-ecommerce-service"/></svg>
+                    </div>
+                    <h3 class="service-card__title">E-commerce</h3>
+                    <p class="service-card__description">Tiendas online completas con catálogo, carrito, pasarelas de pago y gestión de pedidos.</p>
+                </div>
+                <div class="service-card" id="servicio-desarrollo-personalizado">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-personalizado"/></svg>
+                    </div>
+                    <h3 class="service-card__title">Desarrollo personalizado</h3>
+                    <p class="service-card__description">Construimos funcionalidades a medida que se adaptan exactamente a los procesos de tu empresa.</p>
+                </div>
+                <div class="service-card" id="servicio-integraciones-api">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-integraciones"/></svg>
+                    </div>
+                    <h3 class="service-card__title">Integraciones API</h3>
+                    <p class="service-card__description">Conectamos tu sitio web con servicios externos, plataformas y herramientas de tu ecosistema digital.</p>
+                </div>
+                <div class="service-card" id="servicio-automatizaciones">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-automatizaciones"/></svg>
+                    </div>
+                    <h3 class="service-card__title">Automatizaciones</h3>
+                    <p class="service-card__description">Optimizamos procesos repetitivos para que tu negocio opere de forma más eficiente.</p>
+                </div>
+                <div class="service-card" id="servicio-seo-tecnico">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-seo"/></svg>
+                    </div>
+                    <h3 class="service-card__title">SEO técnico</h3>
+                    <p class="service-card__description">Optimizamos la estructura técnica de tu sitio para mejorar su visibilidad en motores de búsqueda.</p>
+                </div>
+                <div class="service-card" id="servicio-optimizacion-rendimiento">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-optimizacion"/></svg>
+                    </div>
+                    <h3 class="service-card__title">Optimización de rendimiento</h3>
+                    <p class="service-card__description">Mejoramos la velocidad de carga y el desempeño general de tu sitio web.</p>
+                </div>
+                <div class="service-card" id="servicio-analitica-digital">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-analitica"/></svg>
+                    </div>
+                    <h3 class="service-card__title">Analítica digital</h3>
+                    <p class="service-card__description">Implementamos herramientas de medición para que tomes decisiones basadas en datos reales.</p>
+                </div>
+                <div class="service-card" id="servicio-mantenimiento-web">
+                    <div class="service-card__icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-mantenimiento-service"/></svg>
+                    </div>
+                    <h3 class="service-card__title">Mantenimiento web</h3>
+                    <p class="service-card__description">Nos encargamos de que tu sitio esté siempre actualizado, seguro y funcionando correctamente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESO DE TRABAJO -->
+    <section id="proceso" class="process" aria-labelledby="process-heading">
+        <div class="process__container">
+            <header class="process__header">
+                <h2 class="process__title" id="process-heading">Cómo trabajamos</h2>
+                <p class="process__subtitle">Un proceso claro y estructurado para llevar tu proyecto digital de la idea a la realidad.</p>
+            </header>
+            <div class="process__steps">
+                <div class="process-step"><span class="process-step__number" aria-hidden="true">01</span><div class="process-step__content"><h3 class="process-step__title">Descubrimos</h3><p class="process-step__description">Entendemos tu negocio, objetivos, usuarios y necesidades.</p></div></div>
+                <div class="process-step"><span class="process-step__number" aria-hidden="true">02</span><div class="process-step__content"><h3 class="process-step__title">Diseñamos</h3><p class="process-step__description">Definimos la estructura y experiencia digital de tu proyecto.</p></div></div>
+                <div class="process-step"><span class="process-step__number" aria-hidden="true">03</span><div class="process-step__content"><h3 class="process-step__title">Desarrollamos</h3><p class="process-step__description">Convertimos el diseño en una solución web funcional, responsive y optimizada.</p></div></div>
+                <div class="process-step"><span class="process-step__number" aria-hidden="true">04</span><div class="process-step__content"><h3 class="process-step__title">Lanzamos y acompañamos</h3><p class="process-step__description">Publicamos el proyecto y podemos continuar con mantenimiento y optimización.</p></div></div>
+            </div>
+            <div class="process__cta-wrapper">
+                <a href="https://wa.me/50240660914?text=Hola,%20quiero%20iniciar%20mi%20proyecto%20web" class="process__cta" target="_blank" rel="noopener noreferrer">Quiero iniciar mi proyecto</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTAFOLIO -->
+    <section id="portafolio" class="portfolio" aria-labelledby="portfolio-heading">
+        <div class="portfolio__container">
+            <header class="portfolio__header">
+                <h2 class="portfolio__title" id="portfolio-heading">Portafolio</h2>
+                <p class="portfolio__subtitle">Proyectos que hemos desarrollado para diferentes tipos de negocios e industrias.</p>
+            </header>
+            <div class="portfolio__grid">
+                <!-- BarberKing Online -->
+                <article class="portfolio-card" id="proyecto-barberking">
+                    <div class="portfolio-card__image-wrapper">
+                        <img src="https://res.cloudinary.com/dvferf0h6/image/upload/v1778564560/Grabaci%C3%B3n_de_pantalla_2026-05-11_233733_syzolx.gif" alt="BarberKing Online — Plataforma de reservas online y catálogo de servicios para barbería" class="portfolio-card__image" loading="lazy">
+                    </div>
+                    <div class="portfolio-card__info">
+                        <span class="portfolio-card__category">Barbería</span>
+                        <h3 class="portfolio-card__name">BarberKing Online</h3>
+                        <p class="portfolio-card__description">Reservas online + catálogo de servicios</p>
+                        <a href="pages/barberia.html" class="portfolio-card__cta" aria-label="Ver proyecto BarberKing Online">Ver proyecto</a>
+                    </div>
+                </article>
+                <!-- AromaCafé -->
+                <article class="portfolio-card" id="proyecto-aromacafe">
+                    <div class="portfolio-card__image-wrapper">
+                        <img src="https://res.cloudinary.com/dvferf0h6/image/upload/v1778597238/Grabaci%C3%B3n_de_pantalla_2026-05-12_084538_lbno32.gif" alt="AromaCafé — Experiencia digital para cafetería con menú y ambiente visual" class="portfolio-card__image" loading="lazy">
+                    </div>
+                    <div class="portfolio-card__info">
+                        <span class="portfolio-card__category">Cafetería</span>
+                        <h3 class="portfolio-card__name">AromaCafé</h3>
+                        <p class="portfolio-card__description">Experiencia digital para cafetería</p>
+                        <a href="pages/aromacafe.html" class="portfolio-card__cta" aria-label="Ver proyecto AromaCafé">Ver proyecto</a>
+                    </div>
+                </article>
+                <!-- StyleHub -->
+                <article class="portfolio-card" id="proyecto-stylehub">
+                    <div class="portfolio-card__image-wrapper">
+                        <img src="https://res.cloudinary.com/dvferf0h6/image/upload/v1778601022/stylehub_moda_wcgzj7.gif" alt="StyleHub — Tienda online de moda con catálogo de productos y carrito de compras" class="portfolio-card__image" loading="lazy">
+                    </div>
+                    <div class="portfolio-card__info">
+                        <span class="portfolio-card__category">Fashion / E-commerce</span>
+                        <h3 class="portfolio-card__name">StyleHub</h3>
+                        <p class="portfolio-card__description">Tienda online de moda</p>
+                        <a href="pages/stylehub.html" class="portfolio-card__cta" aria-label="Ver proyecto StyleHub">Ver proyecto</a>
+                    </div>
+                </article>
+                <!-- FitZone -->
+                <article class="portfolio-card" id="proyecto-fitzone">
+                    <div class="portfolio-card__image-wrapper">
+                        <img src="https://res.cloudinary.com/dvferf0h6/image/upload/v1778602727/fitzone_ovsx5f.gif" alt="FitZone — Experiencia digital para gimnasio con planes de membresía y horarios" class="portfolio-card__image" loading="lazy">
+                    </div>
+                    <div class="portfolio-card__info">
+                        <span class="portfolio-card__category">Fitness</span>
+                        <h3 class="portfolio-card__name">FitZone</h3>
+                        <p class="portfolio-card__description">Experiencia digital para gimnasio</p>
+                        <a href="pages/fitzone.html" class="portfolio-card__cta" aria-label="Ver proyecto FitZone">Ver proyecto</a>
+                    </div>
+                </article>
+                <!-- Sabores del Mundo -->
+                <article class="portfolio-card" id="proyecto-sabores-del-mundo">
+                    <div class="portfolio-card__image-wrapper">
+                        <img src="https://res.cloudinary.com/dvferf0h6/image/upload/v1778610221/saboresdelmundo_ggx2xk.gif" alt="Sabores del Mundo — Menú digital interactivo y experiencia gastronómica para restaurante" class="portfolio-card__image" loading="lazy">
+                    </div>
+                    <div class="portfolio-card__info">
+                        <span class="portfolio-card__category">Restaurante</span>
+                        <h3 class="portfolio-card__name">Sabores del Mundo</h3>
+                        <p class="portfolio-card__description">Menú digital + experiencia gastronómica</p>
+                        <a href="pages/saboresdelmundo.html" class="portfolio-card__cta" aria-label="Ver proyecto Sabores del Mundo">Ver proyecto</a>
+                    </div>
+                </article>
+                <!-- ShopLocal -->
+                <article class="portfolio-card" id="proyecto-shoplocal">
+                    <div class="portfolio-card__image-wrapper">
+                        <img src="https://res.cloudinary.com/dvferf0h6/image/upload/v1778611260/Grabaci%C3%B3n_de_pantalla_2026-05-12_123803_fnzi8s.gif" alt="ShopLocal — Marketplace y tienda online con múltiples vendedores" class="portfolio-card__image" loading="lazy">
+                    </div>
+                    <div class="portfolio-card__info">
+                        <span class="portfolio-card__category">E-commerce</span>
+                        <h3 class="portfolio-card__name">ShopLocal</h3>
+                        <p class="portfolio-card__description">Marketplace / tienda online</p>
+                        <a href="pages/shoplocal.html" class="portfolio-card__cta" aria-label="Ver proyecto ShopLocal">Ver proyecto</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANES Y PRECIOS -->
+    <section id="planes" class="pricing" aria-labelledby="pricing-heading">
+        <div class="pricing__container">
+            <header class="pricing__header">
+                <h2 class="pricing__title" id="pricing-heading">Planes y precios</h2>
+                <p class="pricing__subtitle">Encuentra el plan ideal para tu negocio. Desde una landing page hasta soluciones completamente personalizadas.</p>
+            </header>
+            <div class="pricing__grid">
+                <article class="pricing-card" id="plan-starter">
+                    <div class="pricing-card__header">
+                        <h3 class="pricing-card__name">STARTER</h3>
+                        <p class="pricing-card__price">Desde Q1,999</p>
+                        <p class="pricing-card__objective">Para emprendedores y pequeños negocios que necesitan comenzar su presencia digital.</p>
+                    </div>
+                    <ul class="pricing-card__features" aria-label="Características del plan Starter">
+                        <li class="pricing-card__feature">Landing page profesional</li><li class="pricing-card__feature">Hasta 5 secciones</li><li class="pricing-card__feature">Diseño responsive</li><li class="pricing-card__feature">Botón de WhatsApp</li><li class="pricing-card__feature">Formulario de contacto</li><li class="pricing-card__feature">Integración con redes sociales</li><li class="pricing-card__feature">Google Maps</li><li class="pricing-card__feature">SEO básico</li><li class="pricing-card__feature">SSL</li><li class="pricing-card__feature">Optimización móvil</li>
+                    </ul>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20el%20plan%20Starter" class="pricing-card__cta" target="_blank" rel="noopener noreferrer">Elegir Starter</a>
+                </article>
+                <article class="pricing-card pricing-card--featured" id="plan-business">
+                    <span class="pricing-card__badge">MÁS POPULAR</span>
+                    <div class="pricing-card__header">
+                        <h3 class="pricing-card__name">BUSINESS</h3>
+                        <p class="pricing-card__price">Desde Q3,999</p>
+                        <p class="pricing-card__objective">Para empresas que necesitan una presencia digital completa.</p>
+                    </div>
+                    <ul class="pricing-card__features" aria-label="Características del plan Business">
+                        <li class="pricing-card__feature">Hasta 7 páginas</li><li class="pricing-card__feature">Diseño personalizado</li><li class="pricing-card__feature">Diseño responsive</li><li class="pricing-card__feature">WhatsApp</li><li class="pricing-card__feature">Formularios avanzados</li><li class="pricing-card__feature">Blog</li><li class="pricing-card__feature">Google Maps</li><li class="pricing-card__feature">SEO técnico</li><li class="pricing-card__feature">Google Analytics</li><li class="pricing-card__feature">Google Search Console</li><li class="pricing-card__feature">Optimización de velocidad</li><li class="pricing-card__feature">Integración con redes sociales</li><li class="pricing-card__feature">Soporte inicial</li>
+                    </ul>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20el%20plan%20Business" class="pricing-card__cta" target="_blank" rel="noopener noreferrer">Elegir Business</a>
+                </article>
+                <article class="pricing-card" id="plan-ecommerce">
+                    <div class="pricing-card__header">
+                        <h3 class="pricing-card__name">E-COMMERCE</h3>
+                        <p class="pricing-card__price">Desde Q5,999</p>
+                        <p class="pricing-card__objective">Para negocios que quieren vender online.</p>
+                    </div>
+                    <ul class="pricing-card__features" aria-label="Características del plan E-commerce">
+                        <li class="pricing-card__feature">Tienda online</li><li class="pricing-card__feature">Catálogo de productos</li><li class="pricing-card__feature">Categorías</li><li class="pricing-card__feature">Variantes</li><li class="pricing-card__feature">Carrito de compras</li><li class="pricing-card__feature">Checkout</li><li class="pricing-card__feature">Métodos de pago</li><li class="pricing-card__feature">Métodos de envío</li><li class="pricing-card__feature">WhatsApp</li><li class="pricing-card__feature">Gestión de productos</li><li class="pricing-card__feature">SEO</li><li class="pricing-card__feature">Google Analytics</li><li class="pricing-card__feature">Diseño responsive</li>
+                    </ul>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20crear%20mi%20tienda%20online" class="pricing-card__cta" target="_blank" rel="noopener noreferrer">Crear mi tienda</a>
+                </article>
+                <article class="pricing-card pricing-card--custom" id="plan-desarrollo-personalizado">
+                    <div class="pricing-card__header">
+                        <h3 class="pricing-card__name">DESARROLLO PERSONALIZADO</h3>
+                        <p class="pricing-card__price">Desde Q7,999</p>
+                        <p class="pricing-card__objective">Para empresas que necesitan funcionalidades o sistemas específicos.</p>
+                        <p class="pricing-card__note">El precio final depende del alcance y complejidad del proyecto.</p>
+                    </div>
+                    <ul class="pricing-card__features" aria-label="Características del plan Desarrollo Personalizado">
+                        <li class="pricing-card__feature">Sistemas web</li><li class="pricing-card__feature">APIs</li><li class="pricing-card__feature">Integraciones</li><li class="pricing-card__feature">Automatizaciones</li><li class="pricing-card__feature">Dashboards</li><li class="pricing-card__feature">Paneles administrativos</li><li class="pricing-card__feature">Sistemas de reservas</li><li class="pricing-card__feature">Integración con ERP</li><li class="pricing-card__feature">Integración con CRM</li><li class="pricing-card__feature">Funcionalidades personalizadas</li>
+                    </ul>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20solicitar%20una%20cotización%20para%20un%20desarrollo%20personalizado" class="pricing-card__cta" target="_blank" rel="noopener noreferrer">Solicitar cotización</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- MANTENIMIENTO -->
+    <section id="mantenimiento" class="maintenance" aria-labelledby="maintenance-heading">
+        <div class="maintenance__container">
+            <header class="maintenance__header">
+                <h2 class="maintenance__title" id="maintenance-heading">Mantenimiento y gestión web</h2>
+                <p class="maintenance__subtitle">Tu sitio no termina cuando lo publicamos. Podemos encargarnos de mantenerlo actualizado, seguro, optimizado y funcionando correctamente.</p>
+            </header>
+            <div class="maintenance__grid">
+                <article class="maintenance-card" id="maint-care">
+                    <div class="maintenance-card__header">
+                        <h3 class="maintenance-card__name">CARE</h3>
+                        <p class="maintenance-card__price">Q299 <span class="maintenance-card__period">/ mes</span></p>
+                        <p class="maintenance-card__audience">Sitios web pequeños y proyectos informativos.</p>
+                    </div>
+                    <ul class="maintenance-card__features" aria-label="Incluye en plan Care">
+                        <li class="maintenance-card__feature">Actualizaciones</li><li class="maintenance-card__feature">Backups</li><li class="maintenance-card__feature">Corrección de errores menores</li><li class="maintenance-card__feature">Monitoreo básico</li><li class="maintenance-card__feature">Soporte</li><li class="maintenance-card__feature">Hasta 1 hora de cambios al mes</li>
+                    </ul>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20contratar%20el%20plan%20Care%20de%20mantenimiento" class="maintenance-card__cta" target="_blank" rel="noopener noreferrer">Contratar Care</a>
+                </article>
+                <article class="maintenance-card maintenance-card--featured" id="maint-grow">
+                    <div class="maintenance-card__header">
+                        <h3 class="maintenance-card__name">GROW</h3>
+                        <p class="maintenance-card__price">Q599 <span class="maintenance-card__period">/ mes</span></p>
+                        <p class="maintenance-card__audience">Empresas que necesitan soporte continuo.</p>
+                    </div>
+                    <ul class="maintenance-card__features" aria-label="Incluye en plan Grow">
+                        <li class="maintenance-card__feature">Todo lo incluido en Care</li><li class="maintenance-card__feature">Backups semanales</li><li class="maintenance-card__feature">Actualizaciones de seguridad</li><li class="maintenance-card__feature">Optimización mensual</li><li class="maintenance-card__feature">Cambios de contenido</li><li class="maintenance-card__feature">Monitoreo</li><li class="maintenance-card__feature">Hasta 3 horas de trabajo al mes</li><li class="maintenance-card__feature">Reporte mensual</li>
+                    </ul>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20contratar%20el%20plan%20Grow%20de%20mantenimiento" class="maintenance-card__cta" target="_blank" rel="noopener noreferrer">Contratar Grow</a>
+                </article>
+                <article class="maintenance-card" id="maint-ecommerce-care">
+                    <div class="maintenance-card__header">
+                        <h3 class="maintenance-card__name">E-COMMERCE CARE</h3>
+                        <p class="maintenance-card__price">Q1,499 <span class="maintenance-card__period">/ mes</span></p>
+                        <p class="maintenance-card__audience">Tiendas online que necesitan atención continua.</p>
+                    </div>
+                    <ul class="maintenance-card__features" aria-label="Incluye en plan E-commerce Care">
+                        <li class="maintenance-card__feature">Backups diarios</li><li class="maintenance-card__feature">Monitoreo</li><li class="maintenance-card__feature">Seguridad</li><li class="maintenance-card__feature">Actualizaciones</li><li class="maintenance-card__feature">Optimización</li><li class="maintenance-card__feature">Cambios de productos</li><li class="maintenance-card__feature">Cambios de banners</li><li class="maintenance-card__feature">Gestión de contenido</li><li class="maintenance-card__feature">Soporte prioritario</li><li class="maintenance-card__feature">Hasta 6 horas al mes</li><li class="maintenance-card__feature">Reporte mensual</li>
+                    </ul>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20contratar%20el%20plan%20E-commerce%20Care%20de%20mantenimiento" class="maintenance-card__cta" target="_blank" rel="noopener noreferrer">Contratar E-commerce Care</a>
+                </article>
+                <article class="maintenance-card maintenance-card--enterprise" id="maint-enterprise">
+                    <div class="maintenance-card__header">
+                        <h3 class="maintenance-card__name">ENTERPRISE</h3>
+                        <p class="maintenance-card__price">Desde Q2,499 <span class="maintenance-card__period">/ mes</span></p>
+                        <p class="maintenance-card__audience">Empresas que necesitan atención continua y soporte prioritario.</p>
+                        <p class="maintenance-card__note">Plan adaptado al alcance y necesidades de cada empresa.</p>
+                    </div>
+                    <ul class="maintenance-card__features" aria-label="Incluye en plan Enterprise">
+                        <li class="maintenance-card__feature">Gestión continua</li><li class="maintenance-card__feature">Mantenimiento preventivo</li><li class="maintenance-card__feature">Seguridad</li><li class="maintenance-card__feature">Optimización</li><li class="maintenance-card__feature">Monitoreo</li><li class="maintenance-card__feature">Soporte prioritario</li><li class="maintenance-card__feature">Gestión de contenido</li><li class="maintenance-card__feature">Cambios y mejoras</li><li class="maintenance-card__feature">Horas de desarrollo según contrato</li><li class="maintenance-card__feature">Reportes</li><li class="maintenance-card__feature">Atención personalizada</li>
+                    </ul>
+                    <a href="https://wa.me/50240660914?text=Hola,%20quiero%20hablar%20con%20un%20especialista%20sobre%20el%20plan%20Enterprise" class="maintenance-card__cta" target="_blank" rel="noopener noreferrer">Hablar con un especialista</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq" aria-labelledby="faq-heading">
+        <div class="faq__container">
+            <header class="faq__header">
+                <h2 class="faq__title" id="faq-heading">Preguntas frecuentes</h2>
+                <p class="faq__subtitle">Respuestas a las dudas más comunes sobre nuestros servicios y procesos.</p>
+            </header>
+            <div class="faq__list">
+                <details class="faq-item" id="faq-tipo-sitios">
+                    <summary class="faq-item__question">¿Qué tipo de sitios web desarrollan?</summary>
+                    <div class="faq-item__answer"><p>Desarrollamos sitios corporativos, landing pages, tiendas online, portales web, dashboards y soluciones digitales personalizadas. Trabajamos con diferentes tecnologías según lo que cada proyecto requiera.</p></div>
+                </details>
+                <details class="faq-item" id="faq-tiendas-online">
+                    <summary class="faq-item__question">¿Trabajan con tiendas online?</summary>
+                    <div class="faq-item__answer"><p>Sí. Desarrollamos e-commerce completos con catálogo de productos, carrito de compras, checkout, pasarelas de pago y métodos de envío. También podemos integrar soluciones existentes como WooCommerce o Shopify.</p></div>
+                </details>
+                <details class="faq-item" id="faq-solo-mantenimiento">
+                    <summary class="faq-item__question">¿Puedo contratar solamente mantenimiento?</summary>
+                    <div class="faq-item__answer"><p>Sí. Si ya tienes un sitio web y necesitas mantenimiento, actualizaciones, correcciones o soporte continuo, puedes contratar cualquiera de nuestros planes de mantenimiento independientemente del desarrollo.</p></div>
+                </details>
+                <details class="faq-item" id="faq-sitio-existente">
+                    <summary class="faq-item__question">¿Pueden trabajar sobre un sitio web existente?</summary>
+                    <div class="faq-item__answer"><p>Sí. Podemos tomar un sitio existente para rediseñarlo, optimizarlo, agregarle funcionalidades o darle mantenimiento. Depende del alcance del proyecto y del estado actual del sitio.</p></div>
+                </details>
+                <details class="faq-item" id="faq-pasarelas-pago">
+                    <summary class="faq-item__question">¿Integran pasarelas de pago?</summary>
+                    <div class="faq-item__answer"><p>Sí. Integramos pasarelas de pago como Stripe, PayPal y otras plataformas de pago disponibles en tu región para que tu tienda online pueda procesar transacciones.</p></div>
+                </details>
+                <details class="faq-item" id="faq-apis-externos">
+                    <summary class="faq-item__question">¿Pueden integrar APIs y sistemas externos?</summary>
+                    <div class="faq-item__answer"><p>Sí. Conectamos tu sitio web con APIs, CRMs, ERPs, plataformas de marketing, sistemas de reservas y cualquier servicio externo que tu negocio necesite integrar.</p></div>
+                </details>
+                <details class="faq-item" id="faq-tiempo-proyecto">
+                    <summary class="faq-item__question">¿Cuánto tarda un proyecto?</summary>
+                    <div class="faq-item__answer"><p>Depende del alcance del proyecto. Una landing page puede estar lista en una semana. Un sitio corporativo completo puede tomar de 2 a 4 semanas. Un e-commerce o desarrollo personalizado puede requerir de 4 a 8 semanas o más, según la complejidad.</p></div>
+                </details>
+                <details class="faq-item" id="faq-hosting-dominio">
+                    <summary class="faq-item__question">¿Los precios incluyen hosting y dominio?</summary>
+                    <div class="faq-item__answer"><p>Los precios de los planes de desarrollo no incluyen hosting ni dominio. Sin embargo, podemos asesorarte y ayudarte a configurar ambos servicios según las necesidades de tu proyecto. Algunos planes de mantenimiento pueden incluir gestión de hosting.</p></div>
+                </details>
+                <details class="faq-item" id="faq-funcionalidades-personalizadas">
+                    <summary class="faq-item__question">¿Puedo solicitar funcionalidades personalizadas?</summary>
+                    <div class="faq-item__answer"><p>Sí. De hecho, nuestro plan de Desarrollo Personalizado está diseñado exactamente para eso. Podemos construir funcionalidades, sistemas y automatizaciones a la medida de lo que tu empresa necesita.</p></div>
+                </details>
+                <details class="faq-item" id="faq-mantenimiento-despues">
+                    <summary class="faq-item__question">¿Puedo contratar mantenimiento después del desarrollo?</summary>
+                    <div class="faq-item__answer"><p>Sí. Una vez que tu proyecto esté terminado y publicado, puedes contratar cualquiera de nuestros planes de mantenimiento para asegurar que tu sitio se mantenga actualizado, seguro y funcionando correctamente.</p></div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section id="contacto" class="contact-section" aria-labelledby="contact-heading">
+        <div class="contact-section__container">
+            <header class="contact-section__header">
+                <h2 class="contact-section__title" id="contact-heading">¿Listo para llevar tu negocio al siguiente nivel?</h2>
+                <p class="contact-section__text">Cuéntanos qué necesitas y construyamos juntos una solución digital para tu negocio.</p>
+            </header>
+            <div class="contact-section__actions">
+                <a href="https://wa.me/50240660914?text=Hola,%20quiero%20cotizar%20un%20proyecto%20web" class="contact-section__cta contact-section__cta--primary" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
+                <a href="https://wa.me/50240660914?text=Hola,%20quiero%20cotizar%20un%20proyecto%20web" class="contact-section__cta contact-section__cta--secondary" target="_blank" rel="noopener noreferrer">Solicitar cotización</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer" id="footer" aria-label="Pie de página">
+    <div class="footer__container">
+        <div class="footer__brand">
+            <a href="#inicio" class="footer__logo" aria-label="ELIDEV — Ir al inicio">
+                <img src="https://res.cloudinary.com/dvferf0h6/image/upload/v1778607104/elidevlogo_mcn1xg.png" alt="ELIDEV" width="120" height="32">
+            </a>
+            <p class="footer__description">Soluciones digitales para negocios que quieren crecer.</p>
+        </div>
+        <div class="footer__column">
+            <h3 class="footer__column-title">SERVICIOS</h3>
+            <ul class="footer__links">
+                <li><a href="#solucion-sitios-web" class="footer__link">Sitios Web</a></li>
+                <li><a href="#solucion-ecommerce" class="footer__link">E-commerce</a></li>
+                <li><a href="#servicio-landing-pages" class="footer__link">Landing Pages</a></li>
+                <li><a href="#solucion-desarrollo" class="footer__link">Desarrollo Personalizado</a></li>
+                <li><a href="#mantenimiento" class="footer__link">Mantenimiento</a></li>
+            </ul>
+        </div>
+        <div class="footer__column">
+            <h3 class="footer__column-title">EMPRESA</h3>
+            <ul class="footer__links">
+                <li><a href="#inicio" class="footer__link">Sobre Nosotros</a></li>
+                <li><a href="#portafolio" class="footer__link">Portafolio</a></li>
+                <li><a href="#planes" class="footer__link">Planes</a></li>
+                <li><a href="#faq" class="footer__link">FAQ</a></li>
+                <li><a href="#contacto" class="footer__link">Contacto</a></li>
+            </ul>
+        </div>
+        <div class="footer__column">
+            <h3 class="footer__column-title">CONTACTO</h3>
+            <ul class="footer__links">
+                <li><a href="https://wa.me/50240660914?text=Hola,%20quiero%20información%20sobre%20sus%20servicios%20web" class="footer__link" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                <li><a href="mailto:contacto@elidev.site" class="footer__link">E-mail</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer__bottom">
+        <p class="footer__copyright">© 2026 ELIDEV. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<script src="scripts.js" defer></script>
+<script>
+    (function() {
+        const toggleBtn = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        if (toggleBtn && navMenu) {
+            toggleBtn.addEventListener('click', function() {
+                const isOpen = navMenu.classList.toggle('nav__menu--open');
+                toggleBtn.setAttribute('aria-expanded', isOpen);
+                const iconSpan = toggleBtn.querySelector('.nav__toggle-icon');
+                if (iconSpan) iconSpan.textContent = isOpen ? '✕' : '☰';
+                toggleBtn.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+            });
+            navMenu.querySelectorAll('.nav__link').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('nav__menu--open');
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                    const iconSpan = toggleBtn.querySelector('.nav__toggle-icon');
+                    if (iconSpan) iconSpan.textContent = '☰';
+                    toggleBtn.setAttribute('aria-label', 'Abrir menú de navegación');
+                });
+            });
+        }
+    })();
+</script>
+</body>
+</html>
